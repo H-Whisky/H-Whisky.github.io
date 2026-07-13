@@ -93,31 +93,294 @@ code, pre, .code-lang {
 .recent-post-item {
   transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
               box-shadow 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  border-radius: 12px;
+  border-radius: 14px;
   overflow: hidden;
+  position: relative;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="dark"] .recent-post-item {
+  background: #1e1e24;
+  border-color: rgba(255, 255, 255, 0.06);
 }
 
 .recent-post-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  border-color: rgba(73, 177, 245, 0.2);
 }
 
 [data-theme="dark"] .recent-post-item:hover {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  border-color: rgba(73, 177, 245, 0.25);
 }
 
+/* Top gradient bar on post cards */
+.recent-post-item::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #49b1f5, #7c4dff);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 1;
+}
+
+.recent-post-item:hover::before {
+  opacity: 1;
+}
+
+/* Post accent overrides for gradient bar */
+.post-accent-sports::before { background: linear-gradient(90deg, #ee5a24, #ff6b6b); }
+.post-accent-city::before { background: linear-gradient(90deg, #0abde3, #48dbfb); }
+.post-accent-learn::before { background: linear-gradient(90deg, #6c5ce7, #a29bfe); }
+
+/* Post card inner spacing */
+.recent-post-info {
+  padding: 1.5rem 1.8rem !important;
+}
+
+.recent-post-info.no-cover {
+  padding: 1.5rem 1.8rem !important;
+}
+
+/* Article title enhancement */
+.article-title {
+  font-size: 1.25rem !important;
+  font-weight: 700 !important;
+  line-height: 1.4 !important;
+  display: block;
+  margin-bottom: 0.5rem;
+  transition: color 0.25s ease !important;
+}
+
+.article-title:hover {
+  color: #49b1f5 !important;
+}
+
+/* Meta section */
+.article-meta-wrap {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 0.5rem 0 0.8rem !important;
+  font-size: 0.82rem !important;
+  color: #999 !important;
+}
+
+.article-meta-wrap i {
+  color: #49b1f5;
+}
+
+/* Content preview */
+.recent-post-item .content {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #777;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .recent-post-item .content {
+  color: #999;
+}
+
+/* Read more hint */
+.recent-post-item .content::after {
+  content: '... 阅读全文 →';
+  display: inline;
+  color: #49b1f5;
+  font-size: 0.82rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+  margin-left: 4px;
+}
+
+.recent-post-item:hover .content::after {
+  opacity: 0.8;
+}
+
+/* ═══════════ Archive & Tag List Items ═══════════ */
+.article-sort-item {
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border-radius: 12px !important;
+  margin-bottom: 6px;
+  padding: 4px 0;
+  background: transparent;
+}
+
+.article-sort-item:hover {
+  transform: translateX(6px);
+}
+
+.article-sort-item.no-article-cover {
+  height: auto !important;
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 10px !important;
+  border: 1px solid transparent;
+  background: transparent;
+  transition: all 0.25s ease;
+}
+
+.article-sort-item.no-article-cover:hover {
+  background: rgba(73, 177, 245, 0.04);
+  border-color: rgba(73, 177, 245, 0.12);
+}
+
+[data-theme="dark"] .article-sort-item.no-article-cover:hover {
+  background: rgba(73, 177, 245, 0.08);
+  border-color: rgba(73, 177, 245, 0.18);
+}
+
+/* Archive year heading */
+.article-sort-item.year {
+  font-size: 1.3em !important;
+  font-weight: 700;
+  color: #49b1f5 !important;
+  padding: 12px 0 6px 0 !important;
+  margin-top: 8px;
+}
+
+.article-sort-item.year::before {
+  border-color: #49b1f5 !important;
+}
+
+/* Archive time */
+.article-sort-item-time {
+  font-size: 0.82rem !important;
+  color: #aaa !important;
+  min-width: 85px;
+  flex-shrink: 0;
+}
+
+/* Archive title */
+.article-sort-item-title {
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  color: #444 !important;
+}
+
+[data-theme="dark"] .article-sort-item-title {
+  color: #ccc !important;
+}
+
+.article-sort-item-title:hover {
+  color: #49b1f5 !important;
+  transform: translateX(6px) !important;
+}
+
+/* Archive info wrapper */
+.article-sort-item-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+/* ═══════════ Post page: article content ═══════════ */
+.post-content {
+  font-size: 1rem;
+  line-height: 1.85;
+  color: #444;
+}
+
+[data-theme="dark"] .post-content {
+  color: #bbb;
+}
+
+.post-content h1 { font-size: 1.6em; margin-top: 1.5em; }
+.post-content h2 { font-size: 1.35em; margin-top: 1.3em; }
+.post-content h3 { font-size: 1.15em; margin-top: 1.1em; }
+
+.post-content table {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+.post-content table th {
+  background: linear-gradient(135deg, #49b1f5, #7c4dff);
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 14px;
+}
+
+.post-content table td {
+  padding: 8px 14px;
+  border-bottom: 1px solid #eee;
+}
+
+[data-theme="dark"] .post-content table td {
+  border-color: #333;
+}
+
+/* Post copyright box */
+.post-copyright {
+  border-radius: 12px;
+  border-left: 4px solid #49b1f5;
+  background: rgba(73, 177, 245, 0.04);
+  padding: 1rem 1.2rem;
+  margin: 2rem 0;
+}
+
+[data-theme="dark"] .post-copyright {
+  background: rgba(73, 177, 245, 0.06);
+}
+
+/* Post navigation (prev/next) */
+.pagination-post {
+  display: flex;
+  gap: 16px;
+  margin-top: 2rem;
+}
+
+.pagination-post > div {
+  flex: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.pagination-post > div:hover {
+  transform: translateY(-2px);
+}
+
+/* Tag badge on list pages */
+.article-sort-item .post-tag-badge {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  margin-left: 8px;
+  flex-shrink: 0;
+}
+
+/* Card widget consistency */
 .card-widget {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-radius: 12px;
+  border-radius: 14px !important;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+[data-theme="dark"] .card-widget {
+  border-color: rgba(255,255,255,0.05);
 }
 
 .card-widget:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.06);
 }
 
 [data-theme="dark"] .card-widget:hover {
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
 /* ---------- 6a. Hero Subtitle ---------- */
