@@ -195,7 +195,7 @@ code, pre, .code-lang {
   transform: translateY(-2px);
 }
 
-/* Avatar */
+/* Welcome image (team photo) */
 .welcome-avatar {
   flex-shrink: 0;
   position: relative;
@@ -203,17 +203,19 @@ code, pre, .code-lang {
 }
 
 .welcome-avatar img {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
-  border: 3px solid rgba(73, 177, 245, 0.2);
-  box-shadow: 0 4px 16px rgba(73, 177, 245, 0.15);
-  transition: border-color 0.3s, box-shadow 0.3s;
+  width: 100px;
+  height: 68px;
+  border-radius: 10px;
+  object-fit: cover;
+  border: 2px solid rgba(73, 177, 245, 0.2);
+  box-shadow: 0 4px 16px rgba(73, 177, 245, 0.12);
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 
 .welcome-card:hover .welcome-avatar img {
   border-color: rgba(73, 177, 245, 0.5);
-  box-shadow: 0 6px 24px rgba(73, 177, 245, 0.3);
+  box-shadow: 0 6px 24px rgba(73, 177, 245, 0.25);
+  transform: scale(1.05);
 }
 
 /* Body */
@@ -313,8 +315,8 @@ code, pre, .code-lang {
   }
 
   .welcome-avatar img {
-    width: 52px;
-    height: 52px;
+    width: 90px;
+    height: 60px;
   }
 
   .welcome-stats {
