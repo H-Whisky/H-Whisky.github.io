@@ -36,15 +36,10 @@
   filter: drop-shadow(0 12px 32px rgba(100, 180, 255, 0.5));
 }
 
-/* Character Image (Faye Valentine PNG) */
+/* Character SVG */
 .anime-char {
   width: 130px;
-  height: auto;
-  display: block;
-  image-rendering: auto;
-  -webkit-user-drag: none;
-  user-select: none;
-  pointer-events: none;
+  height: 150px;
 }
 
 /* ── Breathing animation (subtle scale pulse) ── */
