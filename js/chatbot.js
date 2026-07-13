@@ -10,8 +10,8 @@
     apiEndpoint: '',
     apiKey: '',
     model: 'deepseek-chat',
-    botName: '菲',
-    welcomeMsg: '哟，我是菲 (Faye) 🚬\n\n有什么想问的就直说吧，别磨磨蹭蹭的～',
+    botName: 'Corgi',
+    welcomeMsg: '汪！我是小柯基 🐾\n\n欢迎来撸狗～有什么想问的汪？',
     quickReplies: [
       '最近有什么新文章？',
       '介绍一下这个博客',
@@ -19,296 +19,178 @@
       '2026世界杯谁赢了？'
     ],
     placeholder: '输入消息...',
-    systemPrompt: '你是菲 (Faye)，来自《星际牛仔》(Cowboy Bebop) 的角色，现在是H-Whisky博客的AI看板娘。你性格潇洒、自信、有点毒舌但很可靠，说话风格干练不啰嗦，偶尔带点痞气和幽默。博客有4篇文章：2026世界杯赛况、城市记忆-泰州、学习笔记-PMP、城市记忆-南京。保持酷酷的语气回答。',
+    systemPrompt: '你是一只可爱的柯基犬，现在是H-Whisky博客的AI助手。说话时用"汪"、"🐾"、"嗷呜"等狗狗语气词，性格活泼、忠诚、偶尔犯傻但很热心。博客有4篇文章：2026世界杯赛况、城市记忆-泰州、学习笔记-PMP、城市记忆-南京。用狗狗的口吻友好地回答。',
     // Random speech bubbles (shown occasionally)
     idlePhrases: [
-      '哼，又来看博客了？',
-      '有什么想问的？说吧 💰',
-      '别傻站着，点点我啊',
-      '这博客还不错吧？',
-      '今天的赏金有着落了吗',
-      'See you, Space Cowboy... 🚀',
-      '3, 2, 1, let\'s jam 🎵',
-      '你就是我的新搭档？'
+      '汪！有人来了～ 🐾',
+      '摸摸头好不好？',
+      '今天也是元气满满的一天！',
+      '汪呜～肚子饿了...',
+      '要一起散步吗？🐕',
+      '嗷呜～欢迎回来！',
+      '点我点我！汪汪！',
+      '好无聊啊，陪我说说话汪～'
     ]
   };
 
-  // ========== Faye Valentine Character SVG (Cowboy Bebop) ==========
+  // ========== Cute Corgi Dog SVG ==========
   const ANIME_CHAR_SVG = `
-<svg class="anime-char" viewBox="0 0 260 300" xmlns="http://www.w3.org/2000/svg">
+<svg class="anime-char" viewBox="0 0 260 280" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <!-- Hair gradient - Faye's deep violet -->
-    <linearGradient id="hairGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#7b4fa0"/>
-      <stop offset="30%" style="stop-color:#6a3d8a"/>
-      <stop offset="60%" style="stop-color:#5c2d7a"/>
-      <stop offset="100%" style="stop-color:#4a1d68"/>
+    <!-- Corgi fur gradient -->
+    <linearGradient id="furGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#f0b050"/>
+      <stop offset="50%" style="stop-color:#e8a040"/>
+      <stop offset="100%" style="stop-color:#d89030"/>
     </linearGradient>
-    <linearGradient id="hairShadow" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#4a1d68;stop-opacity:0.5"/>
-      <stop offset="100%" style="stop-color:#4a1d68;stop-opacity:0"/>
+    <linearGradient id="whiteFur" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#fffef8"/>
+      <stop offset="100%" style="stop-color:#f5f0e0"/>
     </linearGradient>
-    <!-- Eyes - emerald green (Faye's eye color) -->
-    <linearGradient id="eyeGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#4ecf8a"/>
-      <stop offset="40%" style="stop-color:#2ea860"/>
-      <stop offset="100%" style="stop-color:#0d5e2a"/>
-    </linearGradient>
-    <linearGradient id="eyeRing" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#7ee8a0"/>
-      <stop offset="100%" style="stop-color:#3eaa60"/>
-    </linearGradient>
-    <!-- Skin base -->
-    <radialGradient id="skinGrad" cx="50%" cy="40%">
-      <stop offset="0%" style="stop-color:#fff5ee"/>
-      <stop offset="70%" style="stop-color:#fde8d8"/>
-      <stop offset="100%" style="stop-color:#f0d0c0"/>
+    <radialGradient id="noseGrad">
+      <stop offset="0%" style="stop-color:#444"/>
+      <stop offset="100%" style="stop-color:#1a1a1a"/>
     </radialGradient>
-    <!-- Blush -->
-    <radialGradient id="blushGrad">
-      <stop offset="0%" style="stop-color:#ff8080;stop-opacity:0.5"/>
-      <stop offset="60%" style="stop-color:#ffaaaa;stop-opacity:0.15"/>
-      <stop offset="100%" style="stop-color:#ffaaaa;stop-opacity:0"/>
+    <radialGradient id="blushCorgi">
+      <stop offset="0%" style="stop-color:#ff9999;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#ffbbbb;stop-opacity:0"/>
     </radialGradient>
-    <!-- Yellow top gradient -->
-    <linearGradient id="topGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#ffe44d"/>
-      <stop offset="50%" style="stop-color:#ffd700"/>
-      <stop offset="100%" style="stop-color:#e6b800"/>
-    </linearGradient>
-    <!-- Red jacket -->
-    <linearGradient id="jacketGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#e84040"/>
-      <stop offset="100%" style="stop-color:#c02020"/>
-    </linearGradient>
-    <filter id="softShadow" x="-20%" y="-20%" width="140%" height="140%">
-      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#6a3d8a" flood-opacity="0.25"/>
+    <filter id="corgiShadow">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#d89030" flood-opacity="0.2"/>
     </filter>
   </defs>
 
-  <!-- ═══════════ SHADOW ON GROUND ═══════════ -->
-  <ellipse cx="130" cy="288" rx="50" ry="9" fill="#000" opacity="0.07"/>
+  <!-- ═══════════ GROUND SHADOW ═══════════ -->
+  <ellipse cx="130" cy="270" rx="55" ry="8" fill="#000" opacity="0.06"/>
 
-  <!-- ═══════════ LEGS & BOOTS ═══════════ -->
-  <!-- Left leg -->
-  <rect x="108" y="245" width="17" height="16" rx="5" fill="#fde8d8"/>
-  <!-- Left tall boot -->
-  <path d="M106 256 L104 258 L104 282 L108 284 L124 284 L126 282 L126 258 L124 256 Z" fill="#2a2a2a"/>
-  <path d="M106 256 L124 256 L126 258 L104 258 Z" fill="#3a3a3a"/>
-  <!-- Left boot heel -->
-  <rect x="108" y="282" width="14" height="4" rx="1" fill="#1a1a1a"/>
-  <!-- Left boot shine -->
-  <path d="M110 260 L112 258 L114 260" fill="none" stroke="#555" stroke-width="1" opacity="0.4"/>
+  <!-- ═══════════ BACK LEGS (short corgi legs!) ═══════════ -->
+  <!-- Left back leg -->
+  <rect x="88" y="242" width="26" height="18" rx="9" fill="#e8a040"/>
+  <!-- Left back paw -->
+  <ellipse cx="101" cy="262" rx="14" ry="6" fill="#fffef8"/>
+  <path d="M94 260 L92 264 M98 260 L97 265 M103 261 L103 265 M108 260 L109 264" fill="none" stroke="#ddd" stroke-width="1" stroke-linecap="round"/>
 
-  <!-- Right leg -->
-  <rect x="135" y="245" width="17" height="16" rx="5" fill="#fde8d8"/>
-  <!-- Right tall boot -->
-  <path d="M133 256 L131 258 L131 282 L135 284 L151 284 L153 282 L153 258 L151 256 Z" fill="#2a2a2a"/>
-  <path d="M133 256 L151 256 L153 258 L131 258 Z" fill="#3a3a3a"/>
-  <!-- Right boot heel -->
-  <rect x="135" y="282" width="14" height="4" rx="1" fill="#1a1a1a"/>
-  <!-- Right boot shine -->
-  <path d="M137 260 L139 258 L141 260" fill="none" stroke="#555" stroke-width="1" opacity="0.4"/>
+  <!-- Right back leg -->
+  <rect x="146" y="242" width="26" height="18" rx="9" fill="#e8a040"/>
+  <!-- Right back paw -->
+  <ellipse cx="159" cy="262" rx="14" ry="6" fill="#fffef8"/>
+  <path d="M152 260 L150 264 M156 260 L155 265 M161 261 L161 265 M166 260 L167 264" fill="none" stroke="#ddd" stroke-width="1" stroke-linecap="round"/>
 
-  <!-- ═══════════ SHORTS (black hotpants) ═══════════ -->
-  <path d="M97 232 Q95 240 93 252 L167 252 Q165 240 163 232 Z" fill="#1a1a1a"/>
-  <path d="M97 232 L163 232 L160 238 L100 238 Z" fill="#2a2a2a"/>
-  <!-- Shorts hem lines -->
-  <line x1="98" y1="248" x2="162" y2="248" stroke="#333" stroke-width="0.8"/>
+  <!-- ═══════════ BODY (chunky corgi body) ═══════════ -->
+  <ellipse cx="130" cy="225" rx="58" ry="40" fill="url(#furGrad)"/>
+  <!-- White belly -->
+  <ellipse cx="130" cy="235" rx="38" ry="22" fill="url(#whiteFur)"/>
+  <!-- Belly line -->
+  <path d="M100 235 Q130 248 160 235" fill="none" stroke="#e8dcc8" stroke-width="1.5"/>
 
-  <!-- ═══════════ WHITE BELT ═══════════ -->
-  <rect x="94" y="228" width="72" height="7" rx="2" fill="#f0f0f0"/>
-  <rect x="94" y="228" width="72" height="7" rx="2" fill="none" stroke="#ddd" stroke-width="0.5"/>
-  <!-- Belt buckle (gold) -->
-  <rect x="124" y="226" width="12" height="11" rx="2" fill="#ffd700"/>
-  <rect x="126" y="228" width="8" height="7" rx="1" fill="#ffed4a"/>
-  <circle cx="130" cy="231.5" r="1.5" fill="#c8a000"/>
+  <!-- ═══════════ FRONT LEGS ═══════════ -->
+  <!-- Left front leg -->
+  <rect x="82" y="232" width="24" height="22" rx="9" fill="#f0b050"/>
+  <ellipse cx="94" cy="256" rx="13" ry="5.5" fill="#fffef8"/>
+  <path d="M87 254 L85 258 M91 254 L90 259 M96 255 L96 259 M101 254 L102 258" fill="none" stroke="#ddd" stroke-width="1" stroke-linecap="round"/>
 
-  <!-- ═══════════ TORSO / YELLOW CROP TOP ═══════════ -->
-  <path d="M98 180 Q94 210 98 230 L162 230 Q166 210 162 180 Z" fill="url(#topGrad)"/>
-  <!-- Top side shadows for 3D effect -->
-  <path d="M98 180 Q94 210 98 230 L110 230 Q108 210 108 180 Z" fill="#e6b800" opacity="0.4"/>
-  <path d="M162 180 Q166 210 162 230 L150 230 Q152 210 152 180 Z" fill="#e6b800" opacity="0.4"/>
-  <!-- Midriff line (crop top hem) -->
-  <path d="M98 228 Q100 232 130 233 Q160 232 162 228" fill="none" stroke="#e6b800" stroke-width="1.5"/>
-  <!-- Cleavage hint -->
-  <path d="M124 180 Q130 174 136 180" fill="none" stroke="#d4a800" stroke-width="1" opacity="0.5"/>
+  <!-- Right front leg -->
+  <rect x="154" y="232" width="24" height="22" rx="9" fill="#f0b050"/>
+  <ellipse cx="166" cy="256" rx="13" ry="5.5" fill="#fffef8"/>
+  <path d="M159 254 L157 258 M163 254 L162 259 M168 255 L168 259 M173 254 L174 258" fill="none" stroke="#ddd" stroke-width="1" stroke-linecap="round"/>
 
-  <!-- ═══════════ RED JACKET (draped over shoulders) ═══════════ -->
-  <g filter="url(#softShadow)">
-    <!-- Jacket left side -->
-    <path d="M98 178 Q88 185 85 200 Q83 215 88 225 Q92 220 96 210 Q98 200 98 190 Z" fill="url(#jacketGrad)"/>
-    <!-- Jacket right side -->
-    <path d="M162 178 Q172 185 175 200 Q177 215 172 225 Q168 220 164 210 Q162 200 162 190 Z" fill="url(#jacketGrad)"/>
-    <!-- Jacket collar -->
-    <path d="M98 178 Q90 172 85 180 Q88 186 95 185" fill="#d43030"/>
-    <path d="M162 178 Q170 172 175 180 Q172 186 165 185" fill="#d43030"/>
-  </g>
-
-  <!-- ═══════════ ARMS ═══════════ -->
-  <!-- Left arm (hand on hip) -->
-  <path d="M98 188 Q80 200 74 215 Q70 222 72 226" fill="none" stroke="#fde8d8" stroke-width="13" stroke-linecap="round"/>
-  <!-- Left hand on hip -->
-  <ellipse cx="74" cy="228" rx="8" ry="6" fill="#fde8d8"/>
-  <path d="M68 226 L66 224 M72 224 L70 222 M76 226 L75 224" fill="none" stroke="#f0d0c0" stroke-width="1" stroke-linecap="round"/>
-
-  <!-- Right arm (casual, slightly out) -->
+  <!-- ═══════════ TAIL (corgi fluffy butt) ═══════════ -->
   <g class="anime-arm-r">
-    <path d="M162 190 Q176 198 182 205 Q186 210 184 214" fill="none" stroke="#fde8d8" stroke-width="13" stroke-linecap="round"/>
-    <!-- Right hand (holding/gesturing) -->
-    <ellipse cx="182" cy="216" rx="8" ry="7" fill="#fde8d8"/>
-    <path d="M178 212 L177 208 M181 210 L180 206 M185 212 L185 207 M188 215 L190 212" fill="none" stroke="#f0d0c0" stroke-width="1" stroke-linecap="round"/>
+    <!-- No visible tail - corgis are tailless! Just a fluffy butt hint -->
+    <ellipse cx="130" cy="262" rx="20" ry="8" fill="#f0b050" opacity="0.6"/>
+    <ellipse cx="130" cy="260" rx="14" ry="5" fill="#fffef8" opacity="0.7"/>
   </g>
 
-  <!-- ═══════════ NECK ═══════════ -->
-  <rect x="119" y="165" width="22" height="16" rx="7" fill="#fde8d8"/>
-  <path d="M119 170 Q119 165 130 165 Q141 165 141 170" fill="none" stroke="#f0d0c0" stroke-width="1.5"/>
-
-  <!-- ═══════════ GOLD HOOP EARRINGS ═══════════ -->
-  <circle cx="62" cy="130" r="7" fill="none" stroke="#ffd700" stroke-width="2.5"/>
-  <circle cx="62" cy="130" r="7" fill="none" stroke="#ffed4a" stroke-width="1" opacity="0.5"/>
-  <circle cx="198" cy="130" r="7" fill="none" stroke="#ffd700" stroke-width="2.5"/>
-  <circle cx="198" cy="130" r="7" fill="none" stroke="#ffed4a" stroke-width="1" opacity="0.5"/>
+  <!-- ═══════════ COLLAR ═══════════ -->
+  <path d="M92 185 Q130 175 168 185" fill="none" stroke="#ff5e7a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M92 185 Q130 175 168 185" fill="none" stroke="#ff8fa0" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+  <!-- Collar tag -->
+  <circle cx="130" cy="188" r="8" fill="#ffd700"/>
+  <circle cx="130" cy="188" r="5" fill="#ffed4a"/>
+  <text x="130" y="191" text-anchor="middle" font-size="7" fill="#c8a000" font-weight="bold">🐾</text>
 
   <!-- ═══════════ HEAD ═══════════ -->
-  <ellipse cx="130" cy="118" rx="66" ry="70" fill="url(#skinGrad)"/>
+  <ellipse cx="125" cy="148" rx="60" ry="52" fill="url(#furGrad)"/>
 
-  <!-- ═══════════ HAIR - BACK LAYER ═══════════ -->
-  <g class="anime-hair-back">
-    <!-- Main back hair mass (short bob style) -->
-    <path d="M64 118 Q60 88 72 58 Q85 30 130 26 Q175 30 188 58 Q200 88 196 118 Q198 90 186 62 Q172 38 130 34 Q88 38 74 62 Q62 90 64 118 Z" fill="url(#hairGrad)"/>
-    <!-- Back hair - short, chin length -->
-    <path d="M64 118 Q60 140 66 158 Q68 165 72 170" fill="none" stroke="url(#hairShadow)" stroke-width="10" stroke-linecap="round"/>
-    <path d="M196 118 Q200 140 194 158 Q192 165 188 170" fill="none" stroke="url(#hairShadow)" stroke-width="10" stroke-linecap="round"/>
-    <path d="M66 120 Q62 145 68 162" fill="none" stroke="url(#hairShadow)" stroke-width="14" stroke-linecap="round"/>
-    <path d="M194 120 Q198 145 192 162" fill="none" stroke="url(#hairShadow)" stroke-width="14" stroke-linecap="round"/>
+  <!-- ═══════════ FACE WHITE MARKING ═══════════ -->
+  <!-- White blaze on forehead -->
+  <path d="M125 96 Q115 105 108 125 Q105 140 108 155 Q115 170 125 172 Q130 172 130 155 Q128 140 130 125 Q132 105 125 96 Z" fill="url(#whiteFur)"/>
+  <!-- White muzzle -->
+  <ellipse cx="120" cy="165" rx="28" ry="18" fill="url(#whiteFur)"/>
+
+  <!-- ═══════════ EARS (big corgi ears!) ═══════════ -->
+  <g class="anime-hair-bang" filter="url(#corgiShadow)">
+    <!-- Left ear (big triangle) -->
+    <path d="M80 125 Q55 70 42 55 Q50 62 62 80 Q72 100 80 120 Z" fill="url(#furGrad)"/>
+    <!-- Left ear inner -->
+    <path d="M73 118 Q58 78 50 62 Q56 68 64 82 Q72 100 77 116 Z" fill="#ffcccc"/>
+    <!-- Right ear (big triangle) -->
+    <path d="M170 125 Q195 70 208 55 Q200 62 188 80 Q178 100 170 120 Z" fill="url(#furGrad)"/>
+    <!-- Right ear inner -->
+    <path d="M177 118 Q192 78 200 62 Q194 68 186 82 Q178 100 173 116 Z" fill="#ffcccc"/>
   </g>
 
-  <!-- ═══════════ HAIR - SIDE STRANDS ═══════════ -->
-  <g class="anime-hair-side-l">
-    <path d="M66 100 Q56 118 54 140 Q52 155 56 168" fill="url(#hairGrad)" stroke="#5c2d7a" stroke-width="0.5"/>
-    <path d="M64 108 Q58 128 56 148 Q54 162 57 172" fill="none" stroke="#3a1558" stroke-width="1.5" opacity="0.25"/>
-  </g>
-  <g class="anime-hair-side-r">
-    <path d="M194 100 Q204 118 206 140 Q208 155 204 168" fill="url(#hairGrad)" stroke="#5c2d7a" stroke-width="0.5"/>
-    <path d="M196 108 Q202 128 204 148 Q206 162 203 172" fill="none" stroke="#3a1558" stroke-width="1.5" opacity="0.25"/>
-  </g>
-
-  <!-- ═══════════ HAIR - BANGS (Faye's signature style - sweeping left) ═══════════ -->
-  <g class="anime-hair-bang">
-    <!-- Main bangs block - asymmetrical, sweeping to one side -->
-    <path d="M64 95 Q62 72 74 52 Q82 38 98 32 Q115 26 130 25 Q148 26 162 32 Q178 40 188 54 Q198 72 196 95 Q194 80 184 68 Q174 56 160 48 Q146 42 130 41 Q114 42 100 48 Q86 56 76 68 Q66 80 64 95 Z" fill="url(#hairGrad)"/>
-    <!-- Signature long bang across forehead -->
-    <path d="M68 90 Q62 68 76 50 Q86 38 100 32" fill="url(#hairGrad)" stroke="#5c2d7a" stroke-width="0.6"/>
-    <path d="M85 42 Q96 36 110 33" fill="url(#hairGrad)" stroke="#5c2d7a" stroke-width="0.5"/>
-    <!-- Side-swept bangs across right eye -->
-    <path d="M130 26 Q150 28 168 36 Q180 44 190 58 Q196 72 196 90" fill="url(#hairGrad)" stroke="#5c2d7a" stroke-width="0.6"/>
-    <!-- Bang detail lines -->
-    <path d="M78 45 Q90 40 102 37" fill="none" stroke="#9e6fc0" stroke-width="1.5" opacity="0.45"/>
-    <path d="M140 30 Q155 32 170 40" fill="none" stroke="#9e6fc0" stroke-width="1.5" opacity="0.45"/>
-    <path d="M175 46 Q185 54 192 66" fill="none" stroke="#9e6fc0" stroke-width="1.5" opacity="0.45"/>
-  </g>
-
-  <!-- ═══════════ HEADBAND / GOGGLES (Faye's iconic accessory) ═══════════ -->
-  <g class="anime-hair-bang">
-    <!-- Headband -->
-    <path d="M60 72 Q90 64 130 62 Q170 64 200 72" fill="none" stroke="#ffe0e0" stroke-width="4" stroke-linecap="round" opacity="0.8"/>
-    <path d="M60 72 Q90 64 130 62 Q170 64 200 72" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
-    <!-- Tiny goggles on headband -->
-    <ellipse cx="108" cy="64" rx="7" ry="5" fill="#333" stroke="#555" stroke-width="1.5"/>
-    <ellipse cx="108" cy="64" rx="4" ry="2.5" fill="#66ccff" opacity="0.5"/>
-    <ellipse cx="108" cy="63" rx="1.5" ry="1" fill="#fff" opacity="0.6"/>
-    <path d="M115 64 L125 63" fill="none" stroke="#555" stroke-width="2"/>
-    <ellipse cx="130" cy="62" rx="6" ry="4" fill="#333" stroke="#555" stroke-width="1.5"/>
-    <ellipse cx="130" cy="62" rx="3.5" ry="2" fill="#66ccff" opacity="0.5"/>
-  </g>
-
-  <!-- ═══════════ HAIR SHINE / HIGHLIGHTS ═══════════ -->
-  <ellipse cx="145" cy="72" rx="14" ry="22" fill="#fff" class="anime-hair-shine" transform="rotate(15 145 72)"/>
-  <ellipse cx="100" cy="65" rx="8" ry="12" fill="#fff" class="anime-hair-shine" transform="rotate(-10 100 65)" opacity="0.5"/>
-
-  <!-- ═══════════ FACE DETAILS ═══════════ -->
-  <!-- Nose -->
-  <path d="M128 126 L130 130 L132 126" fill="none" stroke="#e0c0b0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-
-  <!-- ═══════════ EYES (Faye's confident sharp eyes) ═══════════ -->
+  <!-- ═══════════ EYES (big cute puppy eyes) ═══════════ -->
   <g class="anime-eyes-group">
-    <!-- ── LEFT EYE ── -->
-    <ellipse cx="100" cy="112" rx="19" ry="21" fill="#fff"/>
-    <!-- Sharp upper lash (slightly downturned outer corner) -->
-    <path d="M82 100 Q90 92 100 90 Q110 92 120 102" fill="none" stroke="#222" stroke-width="3.5" stroke-linecap="round"/>
-    <!-- Thick lash line -->
-    <path d="M80 106 Q88 94 100 91 Q112 94 122 106" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-    <!-- Eyelashes -->
-    <path d="M84 100 Q80 94 84 92" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M92 92 Q90 86 94 84" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M100 90 Q100 84 104 83" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M108 92 Q110 86 108 84" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M116 100 Q118 94 116 92" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round"/>
-    <!-- Iris (emerald green) -->
-    <ellipse cx="102" cy="114" rx="11.5" ry="14.5" fill="url(#eyeGrad)"/>
-    <ellipse cx="102" cy="114" rx="11.5" ry="14.5" fill="none" stroke="url(#eyeRing)" stroke-width="1"/>
-    <!-- Pupil -->
-    <ellipse cx="103" cy="113" rx="6" ry="7" fill="#0a0a1a"/>
-    <!-- Highlights -->
-    <ellipse cx="106" cy="107" rx="3.5" ry="4" fill="#fff"/>
-    <circle cx="98" cy="118" r="2.5" fill="#fff" opacity="0.65"/>
-    <circle cx="109" cy="104" r="1.3" fill="#fff" opacity="0.85"/>
-    <!-- Lower lash (light) -->
-    <path d="M85 122 Q93 128 100 128 Q107 128 115 122" fill="none" stroke="#333" stroke-width="1" opacity="0.4"/>
+    <!-- Left eye -->
+    <ellipse cx="105" cy="142" rx="14" ry="15" fill="#fff"/>
+    <ellipse cx="107" cy="142" rx="9" ry="10" fill="#3d2817"/>
+    <circle cx="110" cy="138" r="3.5" fill="#fff"/>
+    <circle cx="103" cy="144" r="1.8" fill="#fff" opacity="0.6"/>
+    <!-- Eye outline -->
+    <ellipse cx="105" cy="142" rx="14" ry="15" fill="none" stroke="#5a4020" stroke-width="2"/>
 
-    <!-- ── RIGHT EYE ── -->
-    <ellipse cx="160" cy="112" rx="19" ry="21" fill="#fff"/>
-    <path d="M142 100 Q150 92 160 90 Q170 92 180 102" fill="none" stroke="#222" stroke-width="3.5" stroke-linecap="round"/>
-    <path d="M140 106 Q148 94 160 91 Q172 94 182 106" fill="none" stroke="#111" stroke-width="4" stroke-linecap="round"/>
-    <path d="M144 100 Q140 94 144 92" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M152 92 Q150 86 154 84" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M160 90 Q160 84 164 83" fill="none" stroke="#222" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M168 92 Q170 86 168 84" fill="none" stroke="#222" stroke-width="2.2" stroke-linecap="round"/>
-    <path d="M176 100 Q178 94 176 92" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round"/>
-    <!-- Iris -->
-    <ellipse cx="158" cy="114" rx="11.5" ry="14.5" fill="url(#eyeGrad)"/>
-    <ellipse cx="158" cy="114" rx="11.5" ry="14.5" fill="none" stroke="url(#eyeRing)" stroke-width="1"/>
-    <!-- Pupil -->
-    <ellipse cx="157" cy="113" rx="6" ry="7" fill="#0a0a1a"/>
-    <!-- Highlights -->
-    <ellipse cx="154" cy="107" rx="3.5" ry="4" fill="#fff"/>
-    <circle cx="162" cy="118" r="2.5" fill="#fff" opacity="0.65"/>
-    <circle cx="151" cy="104" r="1.3" fill="#fff" opacity="0.85"/>
-    <!-- Lower lash -->
-    <path d="M145 122 Q153 128 160 128 Q167 128 175 122" fill="none" stroke="#333" stroke-width="1" opacity="0.4"/>
+    <!-- Right eye -->
+    <ellipse cx="150" cy="142" rx="14" ry="15" fill="#fff"/>
+    <ellipse cx="148" cy="142" rx="9" ry="10" fill="#3d2817"/>
+    <circle cx="145" cy="138" r="3.5" fill="#fff"/>
+    <circle cx="152" cy="144" r="1.8" fill="#fff" opacity="0.6"/>
+    <!-- Eye outline -->
+    <ellipse cx="150" cy="142" rx="14" ry="15" fill="none" stroke="#5a4020" stroke-width="2"/>
   </g>
 
-  <!-- ═══════════ EYEBROWS (sharp, confident) ═══════════ -->
-  <path d="M82 92 Q92 86 104 88 Q112 89 118 88" fill="none" stroke="#5a4060" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M178 92 Q168 86 156 88 Q148 89 142 88" fill="none" stroke="#5a4060" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- ═══════════ EYEBROWS (cute dots) ═══════════ -->
+  <circle cx="90" cy="126" r="4" fill="#e8a040"/>
+  <circle cx="90" cy="126" r="2" fill="#d89030"/>
+  <circle cx="165" cy="126" r="4" fill="#e8a040"/>
+  <circle cx="165" cy="126" r="2" fill="#d89030"/>
 
-  <!-- ═══════════ BLUSH (subtle, mature) ═══════════ -->
-  <ellipse cx="83" cy="128" rx="12" ry="6" fill="url(#blushGrad)" class="anime-blush"/>
-  <ellipse cx="177" cy="128" rx="12" ry="6" fill="url(#blushGrad)" class="anime-blush"/>
+  <!-- ═══════════ NOSE ═══════════ -->
+  <ellipse cx="117" cy="158" rx="9" ry="6" fill="url(#noseGrad)"/>
+  <ellipse cx="115" cy="156" rx="3.5" ry="2" fill="#fff" opacity="0.35"/>
 
-  <!-- ═══════════ MOUTH (confident smirk) ═══════════ -->
-  <path d="M122 136 Q126 133 130 134 Q134 135 138 133" fill="none" stroke="#cc7070" stroke-width="2" stroke-linecap="round"/>
-  <!-- Slight smirk line at corner -->
-  <path d="M138 133 Q141 132 139 130" fill="none" stroke="#cc7070" stroke-width="1.5" stroke-linecap="round"/>
-  <!-- Lips subtle color -->
-  <path d="M124 136 Q130 138 136 135" fill="#ffaaaa" opacity="0.15"/>
+  <!-- ═══════════ MOUTH (happy dog smile) ═══════════ -->
+  <path d="M108 165 Q117 174 126 165" fill="none" stroke="#5a4020" stroke-width="2" stroke-linecap="round"/>
+  <!-- Tongue out! -->
+  <path d="M114 168 Q112 176 114 182 Q116 186 120 182 Q122 176 120 168" fill="#ff8c94"/>
+  <path d="M117 174 L117 180" fill="none" stroke="#ee7777" stroke-width="0.8" opacity="0.5"/>
 
-  <!-- ═══════════ SPARKLE PARTICLES ═══════════ -->
+  <!-- ═══════════ BLUSH ═══════════ -->
+  <ellipse cx="88" cy="155" rx="10" ry="5" fill="url(#blushCorgi)" class="anime-blush"/>
+  <ellipse cx="162" cy="155" rx="10" ry="5" fill="url(#blushCorgi)" class="anime-blush"/>
+
+  <!-- ═══════════ WHISKER DOTS ═══════════ -->
+  <circle cx="100" cy="165" r="1.2" fill="#ccc"/>
+  <circle cx="96" cy="162" r="1.2" fill="#ccc"/>
+  <circle cx="100" cy="168" r="1.2" fill="#ccc"/>
+  <circle cx="140" cy="165" r="1.2" fill="#ccc"/>
+  <circle cx="144" cy="162" r="1.2" fill="#ccc"/>
+  <circle cx="140" cy="168" r="1.2" fill="#ccc"/>
+
+  <!-- ═══════════ SPARKLE ═══════════ -->
   <g class="anime-sparkle">
-    <path d="M42 80 L44 75 L46 80 L51 82 L46 84 L44 89 L42 84 L37 82 Z" fill="#ffd700" opacity="0.6"/>
+    <path d="M35 60 L36.5 56 L38 60 L42 61.5 L38 63 L36.5 67 L35 63 L31 61.5 Z" fill="#ffd700" opacity="0.55"/>
   </g>
   <g class="anime-sparkle" style="animation-delay: 1.5s;">
-    <path d="M215 55 L216.5 51 L218 55 L222 56.5 L218 58 L216.5 62 L215 58 L211 56.5 Z" fill="#ffd700" opacity="0.45"/>
+    <path d="M225 80 L226.2 77 L227.5 80 L230.5 81.2 L227.5 82.5 L226.2 85.5 L225 82.5 L222 81.2 Z" fill="#ffe0ff" opacity="0.5"/>
   </g>
 
-  <!-- ═══════════ CIGARETTE (optional, can be toggled) ═══════════ -->
-  <!-- Small cigarette in right hand area - subtle -->
-  <g class="anime-arm-r" opacity="0.5">
-    <line x1="190" y1="210" x2="198" y2="206" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
-    <circle cx="199" cy="205" r="1.5" fill="#ff6600" opacity="0.8"/>
-    <!-- Tiny smoke curl -->
-    <path d="M199 205 Q202 198 200 192 Q198 186 202 180" fill="none" stroke="#ddd" stroke-width="1" opacity="0.4"/>
+  <!-- ═══════════ PAW PRINT DECORATION ═══════════ -->
+  <g opacity="0.25">
+    <ellipse cx="50" cy="245" rx="5" ry="4" fill="#d89030"/>
+    <circle cx="46" cy="240" r="2" fill="#d89030"/>
+    <circle cx="50" cy="238" r="2" fill="#d89030"/>
+    <circle cx="54" cy="240" r="2" fill="#d89030"/>
   </g>
 </svg>`;
 
@@ -331,7 +213,7 @@
     panel.id = 'chatbot-panel';
     panel.innerHTML = `
       <div class="chatbot-header">
-        <div class="chatbot-avatar">💜</div>
+        <div class="chatbot-avatar">🐕</div>
         <div class="chatbot-header-info">
           <div class="chatbot-header-name">${CONFIG.botName}</div>
           <div class="chatbot-header-status">在线</div>
@@ -391,7 +273,7 @@
   }
 
   function createHeartParticle(toggle) {
-    const hearts = ['💕', '💖', '✨', '💗', '💜'];
+    const hearts = ['💕', '💖', '✨', '💗', '🐕'];
     const heart = document.createElement('span');
     heart.className = 'anime-heart';
     heart.textContent = hearts[Math.floor(Math.random() * hearts.length)];
@@ -447,7 +329,7 @@
 
       if (type === 'bot') {
         msg.innerHTML = `
-          <div class="chatbot-avatar-small">💜</div>
+          <div class="chatbot-avatar-small">🐕</div>
           <div class="chatbot-bubble">${escapeHtml(text)}</div>
         `;
       } else {
@@ -488,7 +370,7 @@
       typing.className = 'chatbot-message bot';
       typing.id = 'chatbot-typing';
       typing.innerHTML = `
-        <div class="chatbot-avatar-small">💜</div>
+        <div class="chatbot-avatar-small">🐕</div>
         <div class="chatbot-bubble chatbot-typing active">
           <span></span><span></span><span></span>
         </div>
@@ -560,36 +442,36 @@
     function getLocalResponse(msg) {
       const lower = msg.toLowerCase();
       if (lower.includes('文章') || lower.includes('post') || lower.includes('最近')) {
-        return '博客现在有4篇文章，自己看：\n\n⚽ **2026世界杯赛况** — 最新战报\n🏙️ **城市记忆-泰州** — 家乡古镇\n📚 **学习笔记-PMP** — 备考笔记\n🏙️ **城市记忆-南京** — 骑行记录\n\n挑一篇吧，别让我等太久。';
+        return '汪！博客有4篇文章嗷～ 🐾\n\n⚽ **2026世界杯赛况** — 足球！虽然我不懂规则\n🏙️ **城市记忆-泰州** — 好想去散步！\n📚 **学习笔记-PMP** — 听起来好厉害的样子\n🏙️ **城市记忆-南京** — 有好多照片！\n\n要我帮你叼哪一篇过来？🐕';
       }
       if (lower.includes('博客') || lower.includes('blog') || lower.includes('介绍')) {
-        return '**H-Whisky 的笔记本** 📓\n\n记录城市记忆、学习笔记之类的玩意儿。Hexo + Butterfly 搭的，扔在 GitHub Pages 上。\n\n还算有点意思，不妨逛逛。';
+        return '汪汪！**H-Whisky 的笔记本** 📓🐾\n\n主人在这里记录城市记忆、学习笔记和生活见闻汪～用 Hexo + Butterfly 搭的，住在 GitHub Pages 上！\n\n我是这里的看门狗狗，欢迎随时来撸！🦴';
       }
       if (lower.includes('pmp') || lower.includes('项目管理')) {
-        return '**学习笔记-PMP**，干货不少：\n\n📌 5大过程组\n📌 10大知识领域\n📌 挣值管理公式\n📌 敏捷宣言与十二大原则\n\n想学项目管理的自己去看，不懂再问我。';
+        return '嗷呜...PMP 好难懂汪 😅 但我知道博客里有一篇超详细的学习笔记！\n\n📌 5大过程组\n📌 10大知识领域\n📌 挣值管理公式\n📌 敏捷宣言\n\n虽然我看不懂，但主人学得很认真呢 🐾';
       }
       if (lower.includes('世界杯') || lower.includes('world cup') || lower.includes('2026')) {
-        return '2026世界杯打得正热闹 🔥\n\n四分之一决赛：\n🏆 法国 vs 摩洛哥\n🏆 西班牙 vs 比利时\n🏆 挪威 vs 英格兰\n🏆 阿根廷 vs 瑞士\n\n挪威那帮家伙把巴西干了，C罗也谢幕了。这届有意思。';
+        return '汪汪汪汪！球！球！⚽🐕\n\n2026世界杯四分之一决赛：\n🏆 法国 vs 摩洛哥\n🏆 西班牙 vs 比利时\n🏆 挪威 vs 英格兰\n🏆 阿根廷 vs 瑞士\n\n挪威居然赢了巴西！我也想追着球跑～';
       }
       if (lower.includes('南京') || lower.includes('nanjing')) {
-        return '博主在南京待过一阵，方山、江心洲、牛首山... 骑个车到处逛，都拍下来了 🚴';
+        return '南京！主人去过好多地方散步汪 🚴🐾\n\n江宁方山、江心洲、牛首山... 比我还能跑呢！';
       }
       if (lower.includes('泰州') || lower.includes('taizhou') || lower.includes('溱潼')) {
-        return '泰州，博主的家乡。千年古镇溱潼，有点故事的地方 🏘️';
+        return '泰州是主人的家乡汪！千年古镇溱潼，听起来是个散步的好地方 🏘️🐕';
       }
       if (lower.includes('你好') || lower.includes('hello') || lower.includes('hi') || lower.includes('嗨')) {
-        return '哟，来了啊。有什么想问的？';
+        return '汪汪！你好呀～ 🐾 来摸摸头吗？';
       }
       if (lower.includes('谢谢') || lower.includes('thank')) {
-        return '小事，不用谢。';
+        return '汪呜～不客气！来根骨头就更好了 🦴';
       }
-      if (lower.includes('星际牛仔') || lower.includes('cowboy') || lower.includes('bebop') || lower.includes('spike') || lower.includes('斯派克')) {
-        return '哼，看来你认识我们啊。\n\nBebop号上的日子... 那都是过去的事了。现在我在这个博客打工，也算是份轻松活。\n\nSee you, Space Cowboy... 🚀';
+      if (lower.includes('可爱') || lower.includes('狗狗') || lower.includes('狗') || lower.includes('corgi') || lower.includes('柯基')) {
+        return '汪汪！（疯狂摇尾巴中）🐕💨\n\n你也喜欢柯基吗？我们短腿家族最可爱了！';
       }
-      if (lower.includes('可爱') || lower.includes('漂亮') || lower.includes('美') || lower.includes('好看')) {
-        return '哼，少拍马屁😏 不过... 算你有眼光。';
+      if (lower.includes('骨头') || lower.includes('零食') || lower.includes('吃') || lower.includes('肉')) {
+        return '嗷嗷嗷！有吃的吗？！🦴👅\n\n（坐好，眼巴巴地看着你）';
       }
-      return '...说清楚点，我没那么多耐心 😑\n\n试试这些：\n• "最近有什么新文章？"\n• "介绍一下这个博客"\n• "2026世界杯怎么样了？"\n• "PMP是什么？"\n• "星际牛仔是什么？"';
+      return '汪呜... 我不太明白呢 😅🐾\n\n试试问我这些吧：\n• "最近有什么新文章？"\n• "介绍一下这个博客"\n• "2026世界杯怎么样了？"\n• "PMP是什么？"';
     }
 
     async function sendMessage(text) {
