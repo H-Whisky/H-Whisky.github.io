@@ -145,24 +145,185 @@ code, pre, .code-lang {
 
 /* ---------- 6b. Welcome Section ---------- */
 .home-welcome {
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.welcome-text {
-  background: linear-gradient(135deg, rgba(73, 177, 245, 0.08), rgba(124, 77, 255, 0.06));
-  border: 1px solid rgba(73, 177, 245, 0.15);
-  border-radius: 14px;
-  padding: 1rem 1.5rem;
-  font-size: 0.95rem;
-  color: #555;
-  text-align: center;
-  line-height: 1.6;
+.welcome-card {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+  border: 1px solid rgba(73, 177, 245, 0.18);
+  border-radius: 18px;
+  padding: 1.5rem 1.8rem;
+  box-shadow: 0 3px 20px rgba(73, 177, 245, 0.07),
+              0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.4s ease, transform 0.3s ease,
+              border-color 0.4s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-[data-theme="dark"] .welcome-text {
-  background: linear-gradient(135deg, rgba(73, 177, 245, 0.12), rgba(124, 77, 255, 0.08));
+.welcome-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 180px;
+  height: 180px;
+  background: radial-gradient(circle, rgba(73, 177, 245, 0.06) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.welcome-card::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: 30%;
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, rgba(124, 77, 255, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.welcome-card:hover {
+  box-shadow: 0 8px 32px rgba(73, 177, 245, 0.12),
+              0 2px 8px rgba(0, 0, 0, 0.06);
+  border-color: rgba(73, 177, 245, 0.35);
+  transform: translateY(-2px);
+}
+
+/* Avatar */
+.welcome-avatar {
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-avatar img {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid rgba(73, 177, 245, 0.2);
+  box-shadow: 0 4px 16px rgba(73, 177, 245, 0.15);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.welcome-card:hover .welcome-avatar img {
+  border-color: rgba(73, 177, 245, 0.5);
+  box-shadow: 0 6px 24px rgba(73, 177, 245, 0.3);
+}
+
+/* Body */
+.welcome-body {
+  flex: 1;
+  min-width: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.welcome-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 0.35rem 0;
+  letter-spacing: 0.03em;
+}
+
+.welcome-desc {
+  font-size: 0.9rem;
+  color: #666;
+  margin: 0 0 0.7rem 0;
+  line-height: 1.5;
+}
+
+.welcome-desc strong {
+  color: #49b1f5;
+  font-weight: 600;
+}
+
+/* Stats row */
+.welcome-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.welcome-stat {
+  font-size: 0.8rem;
+  color: #888;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  white-space: nowrap;
+}
+
+.welcome-stat i {
+  color: #49b1f5;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+/* Dark mode */
+[data-theme="dark"] .welcome-card {
+  background: linear-gradient(135deg, #1e1e2e 0%, #1a1a28 100%);
   border-color: rgba(73, 177, 245, 0.2);
-  color: #bbb;
+  box-shadow: 0 3px 20px rgba(0, 0, 0, 0.2),
+              0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .welcome-card::before {
+  background: radial-gradient(circle, rgba(73, 177, 245, 0.08) 0%, transparent 70%);
+}
+
+[data-theme="dark"] .welcome-card::after {
+  background: radial-gradient(circle, rgba(124, 77, 255, 0.06) 0%, transparent 70%);
+}
+
+[data-theme="dark"] .welcome-card:hover {
+  border-color: rgba(73, 177, 245, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+[data-theme="dark"] .welcome-title {
+  color: #ddd;
+}
+
+[data-theme="dark"] .welcome-desc {
+  color: #aaa;
+}
+
+[data-theme="dark"] .welcome-desc strong {
+  color: #5cb8ff;
+}
+
+[data-theme="dark"] .welcome-stat {
+  color: #999;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .welcome-card {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.2rem 1rem;
+    gap: 0.8rem;
+  }
+
+  .welcome-avatar img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .welcome-stats {
+    justify-content: center;
+  }
+
+  .welcome-title {
+    font-size: 1rem;
+  }
 }
 
 /* ---------- 6c. Post Tag Badge ---------- */
