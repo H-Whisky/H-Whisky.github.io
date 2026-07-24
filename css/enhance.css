@@ -313,13 +313,13 @@ code, pre, .code-lang {
 
 .home-welcome {
   position: relative;
-  margin-bottom: 2.5rem;
+  margin-bottom: 2rem;
 }
 
 /* ----- Animated gradient border frame ----- */
 .welcome-frame {
   position: relative;
-  border-radius: 20px;
+  border-radius: 14px;
   padding: 2px;
   background: linear-gradient(135deg, #49b1f5, #7c4dff, #00c4b6, #2af598);
   background-size: 400% 400%;
@@ -985,3 +985,13 @@ figure.highlight:hover {
     scroll-behavior: auto;
   }
 }
+/* Post section label */
+.post-section-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #999;
+  margin-bottom: 1rem;
+}
+
