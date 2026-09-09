@@ -1609,18 +1609,31 @@ html[data-theme="dark"] #page-header.nav-fixed #nav #blog-info:hover {
   }
 }
 
-/* ---------- 2) Main layout: less breathing room (homepage only) ---------- */
-.layout:has(.home-welcome) {
+/* ---------- 2) Homepage main column: .home-main wrapper + layout fit ----------
+   (Homepage must keep the theme's two-column shape: one main column div + aside.
+   The wrapper .home-main is the layout's first div child; neutralize the card
+   chrome the theme would apply to it so inner cards float on the page bg.) */
+.layout:has(.home-main) {
   padding-top: 22px;
   padding-bottom: 26px;
 }
-.layout:has(.home-welcome) > div:first-child {
-  padding: 26px 28px;
+.layout:has(.home-main) > .home-main,
+.layout:has(.home-main) > .home-main:hover {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0;
+  padding: 0;
+  width: 74%;
+  align-self: flex-start;
 }
-@media (max-width: 768px) {
-  .layout:has(.home-welcome) > div:first-child {
-    padding: 18px 16px;
-  }
+.layout:has(.home-main) > .home-main > .post-card-grid {
+  margin-top: 1rem;
+}
+.layout:has(.home-main) > .home-main > #pagination .pagination {
+  margin-top: 1.2rem;
+}
+@media (max-width: 900px) {
+  .layout:has(.home-main) > .home-main { width: 100%; }
 }
 
 /* ---------- 3) Welcome card: slimmer ---------- */
