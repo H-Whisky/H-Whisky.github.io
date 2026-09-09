@@ -14,7 +14,9 @@
 | 图标 | Font Awesome 6 |
 | 统计 | 不蒜子 (Busuanzi) |
 | 加密支持 | hexo-blog-encrypt |
-| AI 助手 | 柯基聊天机器人（离线规则 + 可选 OpenAI 兼容接口） |
+| 3D 吉祥物 | Three.js（低多边形 3D 柯基，纯代码建模） |
+| AI 助手 | 柯基机器人 + DeepSeek API（访客可自带 Key，内嵌 Key 待配置） |
+| 配色 | 柯基暖橙棕（enhance.css v3 覆盖层，可整体回退） |
 
 ## 目录结构
 
@@ -26,12 +28,14 @@
 ├── 2023/ / 2024/ / 2026/   # 文章页面（按发布日期）
 ├── css/
 │   ├── index.css           # 主题编译后的样式
-│   └── enhance.css         # 前端优化增强样式（排版/动效/暗色模式）
+│   ├── enhance.css         # 增强样式（排版/动效/暖橙棕覆盖层 v3）
+│   └── chatbot.css         # 柯基聊天面板与 3D 舞台样式
 ├── js/
 │   ├── main.js             # 主题核心脚本
 │   ├── utils.js            # 工具函数（防抖、节流、动画等）
 │   ├── enhance.js          # 阅读进度条、入场动画、页脚年份等增强
-│   ├── chatbot.js          # 柯基聊天机器人
+│   ├── chatbot.js          # 柯基聊天机器人（DeepSeek 接入 + 设置面板）
+│   ├── corgi3d.js          # Three.js 低多边形 3D 柯基（ES Module）
 │   └── tw_cn.js            # 简繁中文转换
 ├── lib/
 │   └── hbe.js              # 文章加密解密库

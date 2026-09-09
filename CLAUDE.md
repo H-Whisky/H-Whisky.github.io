@@ -35,7 +35,9 @@ There is no build step, dev server, linting, or test suite in this repo — it's
 - Simplified/Traditional Chinese toggle (`js/tw_cn.js`)
 - Code highlighting with copy button (highlight.js)
 - Custom homepage: glassmorphism welcome card + editorial "featured post" banner + 2-col post-card grid (`css/enhance.css` v2 section)
-- Corgi chatbot widget (`js/chatbot.js` + `css/chatbot.css`): inline rule-based offline replies; optionally points at an OpenAI-compatible endpoint via the `CONFIG` block (currently `apiEndpoint`/`apiKey` empty)
+- Warm "corgi" palette (v3 override at the end of `css/enhance.css`): replaces Butterfly default blue accents with orange/brown (`#f0883e`/`#d96f24`), light + dark mode
+- Corgi chatbot widget (`js/chatbot.js` + `css/chatbot.css`): rule-based offline fallback; real AI via DeepSeek (`https://api.deepseek.com/chat/completions`, OpenAI-compatible). Key resolution: visitor key entered in the panel ⚙ settings (stored in `localStorage`, never uploaded) > embedded `CONFIG.apiKey` (currently empty) > local canned replies
+- Corgi is rendered as a low-poly 3D character (`js/corgi3d.js`, Three.js from CDN, built from primitives, no external model) mounted on the floating button; falls back to the 2D SVG on load failure
 - `tags/index.html` tag overview page; custom branded `404.html`
 - Enhancement layer (`js/enhance.js`): reading progress bar, scroll-reveal animations, parallax hero, auto-refresh footer copyright year
 

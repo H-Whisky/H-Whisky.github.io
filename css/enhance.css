@@ -18,7 +18,7 @@ html {
   left: 0;
   height: 3px;
   width: 0;
-  background: linear-gradient(90deg, #49b1f5, #7c4dff, #00c4b6);
+  background: linear-gradient(90deg, #ffb45c, #f0883e, #ee6c1d);
   background-size: 200% 100%;
   z-index: 9999;
   transition: width 0.1s linear;
@@ -37,7 +37,7 @@ html {
   top: -100px;
   left: 50%;
   transform: translateX(-50%);
-  background: #49b1f5;
+  background: #d96f24;
   color: #fff;
   padding: 8px 20px;
   border-radius: 0 0 8px 8px;
@@ -51,7 +51,7 @@ html {
 
 .skip-to-content:focus {
   top: 0;
-  outline: 3px solid #7c4dff;
+  outline: 3px solid #f0742e;
   outline-offset: 2px;
 }
 
@@ -200,7 +200,7 @@ code, pre, .code-lang {
 }
 
 .post-card-gradient-learn {
-  background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 50%, #7c4dff 100%);
+  background: linear-gradient(135deg, #f5a24b 0%, #ee7a24 50%, #e05a1a 100%);
 }
 
 .post-card-gradient-learn::before {
@@ -215,7 +215,7 @@ code, pre, .code-lang {
 }
 
 [data-theme="dark"] .post-card-gradient-learn {
-  background: linear-gradient(135deg, #5a4b9e 0%, #7c6dbf 50%, #6c5ce7 100%);
+  background: linear-gradient(135deg, #d08a3f 0%, #bf6d29 50%, #a04e18 100%);
 }
 
 /* ---------- 5d. Card Body ---------- */
@@ -237,11 +237,11 @@ code, pre, .code-lang {
 }
 
 .post-card:hover .post-card-title {
-  color: #49b1f5;
+  color: #d96f24;
 }
 
 [data-theme="dark"] .post-card:hover .post-card-title {
-  color: #5cb8ff;
+  color: #ffab5e;
 }
 
 .post-card-date {
@@ -321,7 +321,7 @@ code, pre, .code-lang {
   position: relative;
   border-radius: 14px;
   padding: 2px;
-  background: linear-gradient(135deg, #49b1f5, #7c4dff, #00c4b6, #2af598);
+  background: linear-gradient(135deg, #ffb45c, #f0883e, #ee6c1d, #f0a63c);
   background-size: 400% 400%;
   animation: frame-shift 7s ease infinite;
   box-shadow: 0 8px 32px rgba(73, 177, 245, 0.15);
@@ -416,7 +416,7 @@ code, pre, .code-lang {
   inset: -4px;
   border-radius: 17px;
   z-index: 1;
-  background: linear-gradient(135deg, #49b1f5, #7c4dff, #00c4b6);
+  background: linear-gradient(135deg, #ffb45c, #f0883e, #ee6c1d);
   animation: ring-pulse 3s ease-in-out infinite;
   opacity: 0.6;
 }
@@ -447,7 +447,7 @@ code, pre, .code-lang {
   margin: 0 0 0.4rem 0;
   letter-spacing: 0.02em;
   line-height: 1.3;
-  background: linear-gradient(135deg, #333, #49b1f5);
+  background: linear-gradient(135deg, #333, #f0883e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -491,7 +491,7 @@ code, pre, .code-lang {
 }
 
 .welcome-desc strong {
-  color: #49b1f5;
+  color: #d96f24;
   font-weight: 600;
 }
 
@@ -523,7 +523,7 @@ code, pre, .code-lang {
 }
 
 .welcome-stat i {
-  color: #49b1f5;
+  color: #d96f24;
   font-size: 0.75rem;
 }
 
@@ -551,7 +551,7 @@ code, pre, .code-lang {
 }
 
 [data-theme="dark"] .welcome-title {
-  background: linear-gradient(135deg, #e0e0e0, #5cb8ff);
+  background: linear-gradient(135deg, #fff, #ffb066);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -562,7 +562,7 @@ code, pre, .code-lang {
 }
 
 [data-theme="dark"] .welcome-desc strong {
-  color: #5cb8ff;
+  color: #ffab5e;
 }
 
 [data-theme="dark"] .welcome-stat {
@@ -636,11 +636,11 @@ code, pre, .code-lang {
 }
 
 .post-accent-city {
-  border-left: 4px solid #0abde3;
+  border-left: 4px solid #eda821;
 }
 
 .post-accent-learn {
-  border-left: 4px solid #6c5ce7;
+  border-left: 4px solid #e8821f;
 }
 
 /* ---------- 6g. Hero Enhanced Overlay ---------- */
@@ -742,7 +742,7 @@ a {
 
 a:focus-visible,
 button:focus-visible {
-  outline: 2px solid #49b1f5;
+  outline: 2px solid #d96f24;
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -776,7 +776,7 @@ button:focus-visible {
 
 .card-tag-cloud a:hover {
   transform: scale(1.15);
-  color: #49b1f5 !important;
+  color: #d96f24 !important;
 }
 
 /* ---------- 10. Sidebar Avatar Glow ---------- */
@@ -859,7 +859,7 @@ button:focus-visible {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #49b1f5;
+  background: #d96f24;
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb {
@@ -867,7 +867,7 @@ button:focus-visible {
 }
 
 [data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-  background: #49b1f5;
+  background: #d96f24;
 }
 
 /* ---------- 16. Code Block Enhancement ---------- */
@@ -910,7 +910,7 @@ figure.highlight:hover {
   display: block;
   width: 40px;
   height: 2px;
-  background: linear-gradient(90deg, #49b1f5, #7c4dff);
+  background: linear-gradient(90deg, #ffa45c, #f0742e);
   margin: 0 auto 16px;
   border-radius: 1px;
 }
@@ -1084,7 +1084,7 @@ figure.highlight:hover {
   font-size: 0.82rem;
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(135deg, #49b1f5, #7c4dff);
+  background: linear-gradient(135deg, #ffa45c, #f0742e);
   box-shadow: 0 4px 12px rgba(73, 177, 245, 0.35);
   opacity: 0;
   transform: translateY(4px) scale(0.8);
@@ -1152,7 +1152,7 @@ figure.highlight:hover {
   height: 3px;
   margin-top: 0.45em;
   border-radius: 2px;
-  background: linear-gradient(90deg, #49b1f5, #7c4dff);
+  background: linear-gradient(90deg, #ffa45c, #f0742e);
 }
 
 #article-container h3 {
@@ -1172,7 +1172,7 @@ figure.highlight:hover {
 #article-container .headerlink {
   opacity: 0;
   transition: opacity 0.2s ease;
-  color: #49b1f5;
+  color: #d96f24;
   margin-left: 0.2em;
   text-decoration: none;
   border-bottom: none !important;
@@ -1222,7 +1222,7 @@ figure.highlight:hover {
   bottom: 0.35em;
   width: 4px;
   border-radius: 2px;
-  background: linear-gradient(180deg, #49b1f5, #7c4dff);
+  background: linear-gradient(180deg, #ffa45c, #f0742e);
 }
 
 #article-container blockquote p {
@@ -1252,7 +1252,7 @@ figure.highlight:hover {
 }
 
 [data-theme="dark"] #article-container a:not(.headerlink) {
-  color: #5cb8ff;
+  color: #ffab5e;
 }
 
 [data-theme="dark"] #article-container a:not(.headerlink):hover {
@@ -1270,7 +1270,7 @@ figure.highlight:hover {
 }
 
 #article-container li::marker {
-  color: #49b1f5;
+  color: #d96f24;
 }
 
 /* images inside posts */
@@ -1410,7 +1410,7 @@ figure.highlight:hover {
   right: 1.15rem;
   top: 50%;
   transform: translateY(-50%) translateX(-4px);
-  color: #49b1f5;
+  color: #d96f24;
   font-weight: 700;
   opacity: 0;
   transition: opacity 0.25s ease, transform 0.25s ease;
@@ -1455,3 +1455,118 @@ figure.highlight:hover {
 }
 
 
+/* ============================================================
+   v3.0 Corgi Warm Palette — 柯基暖橙棕主题覆盖层
+   (replaces Butterfly default blue #49b1f5 accents; loaded last)
+   Light accents: #d96f24(text) / #f0883e(fills) / gradient #ffa45c→#f0742e
+   Dark accents:  #ffab5e(text) / #ffb066(fills)
+   ============================================================ */
+html {
+  --corgi-text: #d96f24;
+  --corgi-text-hover: #b95012;
+  --corgi-fill: #f0883e;
+  --corgi-fill-deep: #dd7425;
+  --corgi-grad-a: #ffa45c;
+  --corgi-grad-b: #f0742e;
+  --corgi-soft: rgba(240, 136, 62, 0.10);
+}
+
+html[data-theme="dark"] {
+  --corgi-text: #ffab5e;
+  --corgi-text-hover: #ffc384;
+  --corgi-fill: #f0883e;
+  --corgi-fill-deep: #ff9c4a;
+}
+
+/* ---------- links & hover text accents ---------- */
+#article-container a,
+#article-container a:not(.headerlink):not(.btn),
+#article-container .headerlink,
+#post .post-copyright:before,
+#post .post-copyright .post-copyright-meta {
+  color: var(--corgi-text);
+}
+#article-container a:hover,
+#article-container a:not(.headerlink):hover,
+.category-lists .category-list a:hover,
+.tag-cloud-list a:hover,
+#aside-content .card-tag-cloud a:hover,
+#aside-content .aside-list > .aside-list-item .content > .comment:hover,
+#aside-content .aside-list > .aside-list-item .content > .title:hover,
+#aside-content #card-toc .toc-content .toc-link:hover,
+.site-data > a:hover div,
+#recent-posts > .recent-post-item > .recent-post-info > .article-title:hover,
+#recent-posts > .recent-post-item > .recent-post-info > .article-meta-wrap a:hover,
+#post-info #post-meta a:hover,
+.article-sort-item-title:hover,
+.article-sort-item.year:hover:before,
+#article-container .timeline .timeline-item:hover .item-circle:before,
+#article-container .timeline .timeline-item.headline .timeline-item-title .item-circle:before {
+  color: var(--corgi-text-hover);
+}
+html[data-theme="dark"] #article-container a,
+html[data-theme="dark"] #article-container a:not(.headerlink) {
+  color: var(--corgi-text);
+}
+html[data-theme="dark"] #article-container a:hover {
+  color: var(--corgi-text-hover);
+}
+
+/* ---------- fills, borders & badges ---------- */
+blockquote {
+  border-left-color: var(--corgi-fill);
+}
+.article-sort-title:before,
+.article-sort-item:before,
+.category-lists ul li:before,
+.list-beauty li:before {
+  border-color: var(--corgi-fill) !important;
+}
+#post .tag_share .post-meta__tags {
+  border-color: var(--corgi-fill);
+  color: var(--corgi-text);
+}
+#post .tag_share .post-meta__tags:hover {
+  background: var(--corgi-fill);
+}
+.hide-block > .hide-button,
+.hide-inline > .hide-button {
+  background: linear-gradient(120deg, var(--corgi-grad-a), var(--corgi-grad-b));
+}
+#article-container .tabs > .nav-tabs > .tab.active button {
+  border-top-color: var(--corgi-fill);
+}
+#post-comment .comment-head #comment-switch .switch-btn {
+  background-color: var(--corgi-fill);
+}
+.note.primary:not(.disabled) {
+  border-left-color: var(--corgi-fill);
+  background-color: var(--corgi-soft);
+}
+.note.primary:not(.disabled) a:not(.btn),
+.note.primary:not(.disabled) h2, .note.primary:not(.disabled) h3,
+.note.primary:not(.disabled) h4, .note.primary:not(.disabled) h5,
+.note.primary:not(.disabled) h6 {
+  color: var(--corgi-text);
+}
+
+/* ---------- header / footer bands ---------- */
+#page-header {
+  background-color: var(--corgi-fill-deep);
+}
+#footer {
+  background-image: linear-gradient(120deg, #f2963f, #df7220);
+  background-color: var(--corgi-fill-deep);
+}
+html[data-theme="dark"] #footer {
+  background-image: linear-gradient(120deg, #b55f22, #9c4a13);
+  background-color: #a04e18;
+}
+
+/* ---------- nav drawer buttons / menus ---------- */
+html[data-theme="dark"] #nav a:hover,
+html[data-theme="dark"] #page-header.nav-fixed #nav a:hover,
+html[data-theme="dark"] #page-header.nav-fixed #nav #toggle-menu:hover,
+html[data-theme="dark"] #page-header.nav-fixed #nav #blog-info:hover {
+  color: var(--corgi-text-hover);
+}

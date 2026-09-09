@@ -15,7 +15,7 @@
   cursor: pointer;
   z-index: 9998;
   padding: 0;
-  filter: drop-shadow(0 10px 30px rgba(156, 39, 176, 0.35));
+  filter: drop-shadow(0 10px 30px rgba(240, 136, 62, 0.40));
   transition: filter 0.5s ease;
   /* Breathing + idle sway */
   animation: char-breathing 4s ease-in-out infinite,
@@ -23,7 +23,7 @@
 }
 
 #chatbot-toggle:hover {
-  filter: drop-shadow(0 14px 36px rgba(255, 105, 180, 0.55));
+  filter: drop-shadow(0 14px 36px rgba(240, 136, 62, 0.55));
   animation: char-excited 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -33,7 +33,7 @@
 }
 
 #chatbot-toggle.active {
-  filter: drop-shadow(0 12px 32px rgba(100, 180, 255, 0.5));
+  filter: drop-shadow(0 12px 32px rgba(255, 164, 92, 0.55));
 }
 
 /* Character SVG */
@@ -326,7 +326,7 @@
 
 /* ---------- Panel Header ---------- */
 .chatbot-header {
-  background: linear-gradient(135deg, #49b1f5, #7c4dff);
+  background: linear-gradient(135deg, #ffa45c, #f0742e);
   padding: 16px 20px;
   display: flex;
   align-items: center;
@@ -456,7 +456,7 @@
 }
 
 .chatbot-message.user .chatbot-bubble {
-  background: linear-gradient(135deg, #49b1f5, #7c4dff);
+  background: linear-gradient(135deg, #ffa45c, #f0742e);
   color: #fff;
   border-bottom-right-radius: 4px;
 }
@@ -470,7 +470,7 @@
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #49b1f5, #7c4dff);
+  background: linear-gradient(135deg, #ffa45c, #f0742e);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -534,8 +534,8 @@
 }
 
 .chatbot-input-wrap input:focus {
-  border-color: #49b1f5;
-  box-shadow: 0 0 0 3px rgba(73, 177, 245, 0.15);
+  border-color: #f0883e;
+  box-shadow: 0 0 0 3px rgba(240, 136, 62, 0.18);
   background: #fff;
 }
 
@@ -546,7 +546,7 @@
 }
 
 [data-theme="dark"] .chatbot-input-wrap input:focus {
-  border-color: #49b1f5;
+  border-color: #f0883e;
   background: #333;
 }
 
@@ -554,7 +554,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #49b1f5, #7c4dff);
+  background: linear-gradient(135deg, #ffa45c, #f0742e);
   border: none;
   cursor: pointer;
   display: flex;
@@ -566,7 +566,7 @@
 
 .chatbot-send:hover {
   transform: scale(1.08);
-  box-shadow: 0 4px 12px rgba(73, 177, 245, 0.4);
+  box-shadow: 0 4px 12px rgba(240, 136, 62, 0.45);
 }
 
 .chatbot-send svg {
@@ -595,9 +595,9 @@
 }
 
 .chatbot-quick-btn:hover {
-  border-color: #49b1f5;
-  color: #49b1f5;
-  background: rgba(73, 177, 245, 0.05);
+  border-color: #f0883e;
+  color: #f0883e;
+  background: rgba(240, 136, 62, 0.08);
 }
 
 [data-theme="dark"] .chatbot-quick-btn {
@@ -607,8 +607,8 @@
 }
 
 [data-theme="dark"] .chatbot-quick-btn:hover {
-  border-color: #49b1f5;
-  color: #49b1f5;
+  border-color: #f0883e;
+  color: #f0883e;
 }
 
 /* ---------- Mobile ---------- */
@@ -627,4 +627,140 @@
     width: 50px;
     height: 50px;
   }
+}
+
+/* ============================================================
+   v2 — 3D Corgi stage + DeepSeek settings panel
+   ============================================================ */
+.corgi-stage {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.corgi-canvas {
+  display: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+#chatbot-toggle.corgi-3d-ok .corgi-canvas { display: block; }
+#chatbot-toggle.corgi-3d-ok .anime-char { display: none; }
+
+/* ---------- Header: gear button ---------- */
+.chatbot-gear {
+  margin-left: auto;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 15px;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.25s ease, background 0.25s ease;
+  flex-shrink: 0;
+}
+.chatbot-gear:hover {
+  transform: rotate(60deg);
+  background: rgba(255, 255, 255, 0.32);
+}
+
+/* ---------- Status dot (online green / offline amber) ---------- */
+.chatbot-header-status.offline { color: #ffd9a8; }
+.chatbot-header-status.offline::before { background: #f5b04e; }
+.chatbot-header-status.online::before { background: #4cff8d; }
+
+/* ---------- Settings panel ---------- */
+.chatbot-settings {
+  padding: 12px 16px 14px;
+  background: rgba(255, 248, 240, 0.98);
+  border-bottom: 1px solid #f0e2d2;
+  font-size: 0.8rem;
+  color: #6b4a28;
+  animation: settings-slide 0.25s ease;
+}
+[data-theme="dark"] .chatbot-settings {
+  background: rgba(42, 38, 32, 0.98);
+  border-bottom-color: #3a332b;
+  color: #e9d9c2;
+}
+@keyframes settings-slide {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.chatbot-settings-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #d96f24;
+}
+.chatbot-settings-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+.chatbot-settings-row label {
+  width: 92px;
+  flex-shrink: 0;
+  color: #8a6234;
+}
+.chatbot-settings-row input,
+.chatbot-settings-row select {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 10px;
+  border: 1px solid #ead9c4;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  background: #fff;
+  color: #333;
+  outline: none;
+}
+.chatbot-settings-row input:focus {
+  border-color: #f0883e;
+  box-shadow: 0 0 0 3px rgba(240, 136, 62, 0.15);
+}
+.chatbot-settings-actions {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0 6px;
+}
+.cs-btn {
+  border: none;
+  border-radius: 12px;
+  padding: 6px 14px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.cs-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.cs-save {
+  background: linear-gradient(120deg, #ffa45c, #f0742e);
+  color: #fff;
+  font-weight: 600;
+}
+.cs-clear {
+  background: transparent;
+  border: 1px solid #d9b896;
+  color: #a06f38;
+}
+.chatbot-settings-tip {
+  font-size: 0.7rem;
+  color: #b08a55;
+  line-height: 1.5;
+}
+[data-theme="dark"] .chatbot-settings-tip { color: #9c8262; }
+[data-theme="dark"] .chatbot-settings-row label { color: #d8b78c; }
+[data-theme="dark"] .chatbot-settings-row input,
+[data-theme="dark"] .chatbot-settings-row select {
+  background: #2a2a2a;
+  border-color: #4a4238;
+  color: #e8e0d4;
+}
+@media (max-width: 480px) {
+  #chatbot-toggle.corgi-3d-ok { width: 64px; height: 64px; }
 }

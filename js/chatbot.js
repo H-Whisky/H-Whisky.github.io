@@ -33,6 +33,29 @@
     ]
   };
 
+  // ========== DeepSeek visitor override (stored locally, never uploaded) ==========
+  const LS_KEYS = {
+    key: 'corgi_ds_key',
+    model: 'corgi_ds_model',
+    endpoint: 'corgi_ds_endpoint'
+  };
+  const DEFAULT_ENDPOINT = 'https://api.deepseek.com/chat/completions';
+
+  function readStore(k) {
+    try { return localStorage.getItem(k) || ''; } catch (e) { return ''; }
+  }
+  function writeStore(k, v) {
+    try { if (v) localStorage.setItem(k, v); else localStorage.removeItem(k); } catch (e) { /* ignore */ }
+  }
+  // 生效配置：访客 Key > 内嵌 Key
+  function getActiveDS() {
+    return {
+      endpoint: readStore(LS_KEYS.endpoint) || CONFIG.apiEndpoint || DEFAULT_ENDPOINT,
+      key: readStore(LS_KEYS.key) || CONFIG.apiKey,
+      model: readStore(LS_KEYS.model) || CONFIG.model || 'deepseek-chat'
+    };
+  }
+
   // ========== Cute Corgi Dog SVG ==========
   const ANIME_CHAR_SVG = `
 <svg class="anime-char" viewBox="0 0 260 280" xmlns="http://www.w3.org/2000/svg">
@@ -202,11 +225,11 @@
     speechBubble.id = 'anime-speech';
     document.body.appendChild(speechBubble);
 
-    // Anime character toggle button
+    // Anime character toggle button（3D 柯基优先，失败自动回退 2D SVG）
     const toggle = document.createElement('button');
     toggle.id = 'chatbot-toggle';
-    toggle.setAttribute('aria-label', '和菲聊天');
-    toggle.innerHTML = ANIME_CHAR_SVG;
+    toggle.setAttribute('aria-label', '和柯基聊天');
+    toggle.innerHTML = `<span class="corgi-stage">${ANIME_CHAR_SVG}<canvas class="corgi-canvas" aria-hidden="true"></canvas></span>`;
 
     // Chat panel
     const panel = document.createElement('div');
@@ -291,8 +314,16 @@
     const inputEl = document.getElementById('chatbot-input');
     const sendBtn = document.getElementById('chatbot-send');
     const closeBtn = panel.querySelector('.chatbot-close');
+    const gearBtn = panel.querySelector('.chatbot-gear');
+    const settingsEl = panel.querySelector('.chatbot-settings');
+    const statusEl = panel.querySelector('.chatbot-header-status');
+    const keyInput = panel.querySelector('#ds-key');
+    const modelSel = panel.querySelector('#ds-model');
+    const saveBtn = panel.querySelector('#ds-save');
+    const clearBtn = panel.querySelector('#ds-clear');
     let isOpen = false;
     let isTyping = false;
+    let corgi3d = null; // 3D 柯基控制器
 
     // Init character animations
     initCharacterAnimations(toggle, speechBubble);
@@ -303,6 +334,7 @@
       panel.classList.add('open');
       toggle.classList.add('active');
       speechBubble.classList.remove('show');
+      if (corgi3d) corgi3d.setMood('excited');
       inputEl.focus();
     }
 
@@ -310,6 +342,7 @@
       isOpen = false;
       panel.classList.remove('open');
       toggle.classList.remove('active');
+      if (corgi3d) corgi3d.setMood('idle');
     }
 
     toggle.addEventListener('click', () => {
@@ -321,6 +354,68 @@
     });
 
     closeBtn.addEventListener('click', closePanel);
+
+    // ========== DeepSeek Settings (visitor key override) ==========
+    function refreshStatus() {
+      const eff = getActiveDS();
+      if (eff.key) {
+        statusEl.textContent = '在线';
+        statusEl.classList.add('online');
+        statusEl.classList.remove('offline');
+      } else {
+        statusEl.textContent = '待配置';
+        statusEl.classList.remove('online');
+        statusEl.classList.add('offline');
+      }
+    }
+
+    function syncSettingsUI() {
+      keyInput.value = readStore(LS_KEYS.key) || '';
+      modelSel.value = readStore(LS_KEYS.model) || CONFIG.model || 'deepseek-chat';
+    }
+
+    function initSettings() {
+      syncSettingsUI();
+      gearBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        settingsEl.hidden = !settingsEl.hidden;
+        if (!settingsEl.hidden) keyInput.focus();
+      });
+      saveBtn.addEventListener('click', () => {
+        const k = keyInput.value.trim();
+        writeStore(LS_KEYS.key, k);
+        writeStore(LS_KEYS.model, modelSel.value);
+        refreshStatus();
+        settingsEl.hidden = true;
+        addMessage(k
+          ? '汪！已保存你的 DeepSeek Key，我现在可以真正回答你啦 🐾'
+          : '保存好了汪（Key 为空，继续用本地小知识库）', 'bot');
+      });
+      clearBtn.addEventListener('click', () => {
+        writeStore(LS_KEYS.key, '');
+        syncSettingsUI();
+        refreshStatus();
+        settingsEl.hidden = true;
+        addMessage('已清除本地保存的 Key 汪～ 🐾', 'bot');
+      });
+      refreshStatus();
+    }
+
+    // ========== 3D Corgi mount (falls back to 2D SVG on failure) ==========
+    async function initCorgi3D() {
+      const canvas = toggle.querySelector('.corgi-canvas');
+      if (!canvas) return;
+      try {
+        const mod = await import('/js/corgi3d.js');
+        corgi3d = await mod.mountCorgi3D(canvas);
+        toggle.classList.add('corgi-3d-ok');
+        if (isOpen && corgi3d) corgi3d.setMood('talk');
+      } catch (err) {
+        console.warn('[corgi] 3D unavailable, keep 2D SVG:', err);
+        canvas.remove();
+        toggle.classList.remove('corgi-3d-ok');
+      }
+    }
 
     // Add message
     function addMessage(text, type) {
@@ -387,19 +482,20 @@
 
     // Call AI API
     async function callAI(userMessage) {
-      if (!CONFIG.apiEndpoint || !CONFIG.apiKey) {
+      const ds = getActiveDS();
+      if (!ds.endpoint || !ds.key) {
         return getLocalResponse(userMessage);
       }
 
       try {
-        const response = await fetch(CONFIG.apiEndpoint, {
+        const response = await fetch(ds.endpoint, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${CONFIG.apiKey}`
+            'Authorization': `Bearer ${ds.key}`
           },
           body: JSON.stringify({
-            model: CONFIG.model,
+            model: ds.model,
             messages: [
               { role: 'system', content: CONFIG.systemPrompt },
               ...getRecentMessages().map(m => ({
@@ -408,19 +504,22 @@
               })),
               { role: 'user', content: userMessage }
             ],
-            max_tokens: 500,
+            max_tokens: 600,
             temperature: 0.7
           })
         });
 
         const data = await response.json();
+        if (data.error) {
+          throw new Error((data.error.message || 'API error') + ' (HTTP ' + response.status + ')');
+        }
         if (data.choices && data.choices[0]) {
           return data.choices[0].message.content;
         }
         throw new Error('Invalid API response');
       } catch (err) {
         console.error('Chatbot API error:', err);
-        return '呜呜，柯基的连接断掉了... 😢\n\n请检查 API 配置或稍后再试哦～';
+        return '呜呜，柯基的连接断掉了... 😢\n\n可能是 Key 无效、额度不足或网络波动。你可以点面板右上角 ⚙ 换一个自己的 DeepSeek Key 再试试汪～';
       }
     }
 
@@ -512,9 +611,14 @@
     function showWelcome() {
       addMessage(CONFIG.welcomeMsg, 'bot');
       addQuickReplies(CONFIG.quickReplies);
+      if (!getActiveDS().key) {
+        addMessage('提示汪：当前没配置 DeepSeek API Key，我只能用本地小知识库回答 😶\n\n点右上角 ⚙ 填入你自己的 Key（仅保存在本浏览器），或等主人内置 Key 后，我就能用 AI 真正回答你啦。', 'bot');
+      }
     }
 
     showWelcome();
+    initSettings();
+    initCorgi3D();
   }
 
   // ========== Helpers ==========
