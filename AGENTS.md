@@ -43,4 +43,4 @@ There is no build step, dev server, linting, or test suite in this repo — it's
 
 ## Content
 
-4 blog posts (all in Chinese): 2026 World Cup recap (2026-07-10), city memories of Nanjing and Taizhou, plus PMP study notes. Tags: `WorldCup-2026`, `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo (the World Cup post also uses local `img/wc2026_*.jpg`).
+3 blog posts (all in Chinese): city memories of Nanjing and Taizhou, plus PMP study notes. Tags: `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo.

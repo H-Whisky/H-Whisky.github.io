@@ -16,10 +16,9 @@
       '最近有什么新文章？',
       '介绍一下这个博客',
       'PMP是什么？',
-      '2026世界杯谁赢了？'
     ],
     placeholder: '输入消息...',
-    systemPrompt: '你是一只可爱的柯基犬，现在是H-Whisky博客的AI助手。说话时用"汪"、"🐾"、"嗷呜"等狗狗语气词，性格活泼、忠诚、偶尔犯傻但很热心。博客有4篇文章：2026世界杯赛况、城市记忆-泰州、学习笔记-PMP、城市记忆-南京。用狗狗的口吻友好地回答。',
+    systemPrompt: '你是一只可爱的柯基犬，现在是H-Whisky博客的AI助手。说话时用"汪"、"🐾"、"嗷呜"等狗狗语气词，性格活泼、忠诚、偶尔犯傻但很热心。博客有3篇文章：城市记忆-泰州、学习笔记-PMP、城市记忆-南京。用狗狗的口吻友好地回答。',
     // Random speech bubbles (shown occasionally)
     idlePhrases: [
       '汪！有人来了～ 🐾',
@@ -541,7 +540,7 @@
     function getLocalResponse(msg) {
       const lower = msg.toLowerCase();
       if (lower.includes('文章') || lower.includes('post') || lower.includes('最近')) {
-        return '汪！博客有4篇文章嗷～ 🐾\n\n⚽ **2026世界杯赛况** — 足球！虽然我不懂规则\n🏙️ **城市记忆-泰州** — 好想去散步！\n📚 **学习笔记-PMP** — 听起来好厉害的样子\n🏙️ **城市记忆-南京** — 有好多照片！\n\n要我帮你叼哪一篇过来？🐕';
+        return '汪！博客现在有3篇文章嗷～ 🐾\n\n🏙️ **城市记忆-泰州** — 好想去散步！\n📚 **学习笔记-PMP** — 听起来好厉害的样子\n🏙️ **城市记忆-南京** — 有好多照片！\n\n要我帮你叼哪一篇过来？🐕';
       }
       if (lower.includes('博客') || lower.includes('blog') || lower.includes('介绍')) {
         return '汪汪！**H-Whisky 的笔记本** 📓🐾\n\n主人在这里记录城市记忆、学习笔记和生活见闻汪～用 Hexo + Butterfly 搭的，住在 GitHub Pages 上！\n\n我是这里的看门狗狗，欢迎随时来撸！🦴';
@@ -549,9 +548,7 @@
       if (lower.includes('pmp') || lower.includes('项目管理')) {
         return '嗷呜...PMP 好难懂汪 😅 但我知道博客里有一篇超详细的学习笔记！\n\n📌 5大过程组\n📌 10大知识领域\n📌 挣值管理公式\n📌 敏捷宣言\n\n虽然我看不懂，但主人学得很认真呢 🐾';
       }
-      if (lower.includes('世界杯') || lower.includes('world cup') || lower.includes('2026')) {
-        return '汪汪汪汪！球！球！⚽🐕\n\n2026世界杯四分之一决赛：\n🏆 法国 vs 摩洛哥\n🏆 西班牙 vs 比利时\n🏆 挪威 vs 英格兰\n🏆 阿根廷 vs 瑞士\n\n挪威居然赢了巴西！我也想追着球跑～';
-      }
+      
       if (lower.includes('南京') || lower.includes('nanjing')) {
         return '南京！主人去过好多地方散步汪 🚴🐾\n\n江宁方山、江心洲、牛首山... 比我还能跑呢！';
       }
@@ -570,7 +567,7 @@
       if (lower.includes('骨头') || lower.includes('零食') || lower.includes('吃') || lower.includes('肉')) {
         return '嗷嗷嗷！有吃的吗？！🦴👅\n\n（坐好，眼巴巴地看着你）';
       }
-      return '汪呜... 我不太明白呢 😅🐾\n\n试试问我这些吧：\n• "最近有什么新文章？"\n• "介绍一下这个博客"\n• "2026世界杯怎么样了？"\n• "PMP是什么？"';
+      return '汪呜... 我不太明白呢 😅🐾\n\n试试问我这些吧：\n• "最近有什么新文章？"\n• "介绍一下这个博客"\n• "PMP是什么？"';
     }
 
     async function sendMessage(text) {
