@@ -14,27 +14,39 @@
 | 图标 | Font Awesome 6 |
 | 统计 | 不蒜子 (Busuanzi) |
 | 加密支持 | hexo-blog-encrypt |
+| AI 助手 | 柯基聊天机器人（离线规则 + 可选 OpenAI 兼容接口） |
 
 ## 目录结构
 
 ```
-├── index.html              # 首页
+├── index.html              # 首页（欢迎卡片 + 头条文章 + 文章卡片流）
+├── 404.html                # 自定义 404 页
 ├── archives/               # 文章归档（按年/月）
-├── tags/                   # 标签聚合页
-├── 2023/ / 2024/           # 文章页面（按发布日期）
+├── tags/                   # 标签总览页 + 各标签聚合页
+├── 2023/ / 2024/ / 2026/   # 文章页面（按发布日期）
 ├── css/
 │   ├── index.css           # 主题编译后的样式
-│   └── enhance.css         # 前端优化增强样式
+│   └── enhance.css         # 前端优化增强样式（排版/动效/暗色模式）
 ├── js/
 │   ├── main.js             # 主题核心脚本
 │   ├── utils.js            # 工具函数（防抖、节流、动画等）
-│   ├── enhance.js          # 前端交互增强脚本
+│   ├── enhance.js          # 阅读进度条、入场动画、页脚年份等增强
+│   ├── chatbot.js          # 柯基聊天机器人
 │   └── tw_cn.js            # 简繁中文转换
 ├── lib/
 │   └── hbe.js              # 文章加密解密库
-├── img/                    # 图片资源（头像、图标等）
+├── img/                    # 图片资源（头像、文章图等）
 └── fancybox/               # 灯箱插件
 ```
+
+## 当前文章（4 篇）
+
+| 文章 | 日期 | 标签 |
+|---|---|---|
+| 2026世界杯赛况 | 2026-07-10 | WorldCup-2026 |
+| 城市记忆-泰州 | 2024-03-22 | CityMem-Taizhou |
+| 学习笔记-PMP | 2024-02-26 | Learn-PMP |
+| 城市记忆-南京 | 2023-04-11 | CityMem-Nanjing |
 
 ## 本地预览
 
@@ -48,6 +60,8 @@ python3 -m http.server 8080
 
 本仓库是 Hexo 生成的静态输出文件。Hexo 源文件（Markdown 文章、`_config.yml` 主题配置等）位于单独的源码仓库中。
 
+> 说明：本仓库当前已在 Git 历史中直接维护（首页改版、聊天机器人等均为直接修改静态文件），直接编辑后提交即可生效。若从 Hexo 源工程重新 `hexo generate` 会覆盖这里的直接改动，需注意取舍。
+
 部署流程：
 ```bash
 hexo generate   # 生成静态文件
@@ -56,4 +70,4 @@ hexo deploy     # 推送到 GitHub Pages
 
 ## 许可
 
-博客文章版权所有 &copy; 2020-2024 H-Whisky，采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可。
+博客文章版权所有 &copy; 2020-2026 H-Whisky，采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/) 许可。

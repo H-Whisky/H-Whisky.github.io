@@ -643,10 +643,6 @@ code, pre, .code-lang {
   border-left: 4px solid #6c5ce7;
 }
 
-  padding-left: 1.2rem;
-}
-
-
 /* ---------- 6g. Hero Enhanced Overlay ---------- */
 #page-header.full_page::before {
   content: '';
@@ -994,4 +990,468 @@ figure.highlight:hover {
   color: #999;
   margin-bottom: 1rem;
 }
+
+/* ============================================================
+   v2 — Visual & Reading Refinements
+   (Featured post banner, card micro-interactions, article
+    typography, tags landing page)
+   ============================================================ */
+
+/* ---------- v2.1 Featured (newest) Post Banner ----------
+   Editorial "hero post": the first card spans the full row and
+   lays out image + text side by side. */
+.post-card-grid > .post-card:first-child {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, 1fr);
+  border-radius: 18px;
+}
+
+.post-card-grid > .post-card:first-child .post-card-image {
+  aspect-ratio: auto;
+  min-height: 270px;
+}
+
+.post-card-grid > .post-card:first-child .post-card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.7rem 2.1rem 1.7rem 1.8rem;
+}
+
+.post-card-grid > .post-card:first-child .post-card-title {
+  font-size: 1.5rem;
+  margin-bottom: 0.45rem;
+}
+
+.post-card-grid > .post-card:first-child .post-card-date {
+  font-size: 0.82rem;
+}
+
+.post-card-grid > .post-card:first-child .post-card-desc {
+  font-size: 0.92rem;
+  -webkit-line-clamp: 3;
+  max-width: 46em;
+}
+
+.post-card-grid > .post-card:first-child .post-card-body::after {
+  top: auto;
+  bottom: 1.6rem;
+  right: 1.9rem;
+}
+
+@media (max-width: 900px) {
+  .post-card-grid > .post-card:first-child {
+    grid-template-columns: 1fr;
+  }
+
+  .post-card-grid > .post-card:first-child .post-card-image {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+
+  .post-card-grid > .post-card:first-child .post-card-body {
+    padding: 1.1rem 1.3rem 1.25rem;
+  }
+
+  .post-card-grid > .post-card:first-child .post-card-title {
+    font-size: 1.2rem;
+  }
+
+  .post-card-grid > .post-card:first-child .post-card-body::after {
+    display: none;
+  }
+}
+
+/* ---------- v2.2 Card Body: hover arrow button ---------- */
+.post-card-body {
+  position: relative;
+  padding-right: 2.7rem;
+}
+
+.post-card-body::after {
+  content: '\2192';
+  position: absolute;
+  top: 1.02rem;
+  right: 1.1rem;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #49b1f5, #7c4dff);
+  box-shadow: 0 4px 12px rgba(73, 177, 245, 0.35);
+  opacity: 0;
+  transform: translateY(4px) scale(0.8);
+  transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+
+.post-card:hover .post-card-body::after {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.post-card-title {
+  padding-right: 1.3rem;
+}
+
+/* ---------- v2.3 Entrance reveal for post cards ----------
+   Keeps the hover lift working after the fade-in finishes. */
+.post-card-grid > .post-card.fade-in-up {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.55s ease,
+              transform 0.55s ease,
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.post-card-grid > .post-card.fade-in-up.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.post-card-grid > .post-card.fade-in-up.visible:hover {
+  transform: translateY(-6px);
+}
+
+.post-card-grid > .post-card:nth-child(2) { transition-delay: 0.05s; }
+.post-card-grid > .post-card:nth-child(3) { transition-delay: 0.12s; }
+.post-card-grid > .post-card:nth-child(4) { transition-delay: 0.19s; }
+
+/* ---------- v2.4 Article Typography ---------- */
+#article-container {
+  letter-spacing: 0.012em;
+}
+
+#article-container > p,
+#article-container blockquote,
+#article-container li {
+  line-height: 1.95;
+}
+
+#article-container h2 {
+  margin: 2.1em 0 0.7em;
+  font-size: 1.45rem;
+  font-weight: 700;
+  scroll-margin-top: 84px;
+  padding-bottom: 0.28em;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.16);
+}
+
+#article-container h2::after {
+  content: '';
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-top: 0.45em;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #49b1f5, #7c4dff);
+}
+
+#article-container h3 {
+  margin: 1.9em 0 0.6em;
+  font-size: 1.22rem;
+  font-weight: 700;
+  scroll-margin-top: 84px;
+}
+
+#article-container h4 {
+  margin: 1.6em 0 0.5em;
+  font-size: 1.08rem;
+  font-weight: 700;
+  scroll-margin-top: 84px;
+}
+
+#article-container .headerlink {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  color: #49b1f5;
+  margin-left: 0.2em;
+  text-decoration: none;
+  border-bottom: none !important;
+}
+
+#article-container h1:hover .headerlink,
+#article-container h2:hover .headerlink,
+#article-container h3:hover .headerlink,
+#article-container h4:hover .headerlink {
+  opacity: 0.7;
+}
+
+/* inline code pill */
+#article-container code:not(figure.highlight code) {
+  padding: 0.16em 0.45em;
+  margin: 0 0.08em;
+  font-size: 0.88em;
+  background: rgba(73, 177, 245, 0.09);
+  color: #d6336c;
+  border: 1px solid rgba(73, 177, 245, 0.14);
+  border-radius: 6px;
+  word-break: break-word;
+}
+
+[data-theme="dark"] #article-container code:not(figure.highlight code) {
+  background: rgba(73, 177, 245, 0.16);
+  color: #ff9db4;
+  border-color: rgba(73, 177, 245, 0.25);
+}
+
+/* blockquote: gradient accent bar */
+#article-container blockquote {
+  position: relative;
+  margin: 1.5em 0;
+  padding: 0.95em 1.3em 0.95em 1.45em;
+  border: none;
+  border-radius: 12px;
+  background: rgba(73, 177, 245, 0.05);
+  color: inherit;
+}
+
+#article-container blockquote::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  bottom: 0.35em;
+  width: 4px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, #49b1f5, #7c4dff);
+}
+
+#article-container blockquote p {
+  margin: 0.25em 0;
+}
+
+#article-container blockquote p + p {
+  margin-top: 0.7em;
+}
+
+[data-theme="dark"] #article-container blockquote {
+  background: rgba(73, 177, 245, 0.1);
+}
+
+/* in-content links with gentle underline */
+#article-container a:not(.headerlink) {
+  color: #2d7fe6;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+#article-container a:not(.headerlink):hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(73, 177, 245, 0.55);
+  color: #1c64c4;
+}
+
+[data-theme="dark"] #article-container a:not(.headerlink) {
+  color: #5cb8ff;
+}
+
+[data-theme="dark"] #article-container a:not(.headerlink):hover {
+  color: #8ccbff;
+}
+
+/* lists */
+#article-container ul,
+#article-container ol {
+  padding-left: 1.6em;
+}
+
+#article-container li {
+  margin: 0.35em 0;
+}
+
+#article-container li::marker {
+  color: #49b1f5;
+}
+
+/* images inside posts */
+#article-container img {
+  border-radius: 12px;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.09);
+}
+
+[data-theme="dark"] #article-container img {
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+/* hr as soft gradient divider */
+#article-container hr {
+  border: none;
+  height: 1px;
+  margin: 2.3em auto;
+  background: linear-gradient(90deg, transparent, rgba(128, 128, 128, 0.35), transparent);
+}
+
+/* tables */
+#article-container table {
+  width: 100%;
+  margin: 1.4em 0;
+  font-size: 0.93em;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid rgba(128, 128, 128, 0.18);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#article-container th {
+  background: rgba(73, 177, 245, 0.09);
+  font-weight: 700;
+  text-align: left;
+}
+
+#article-container th,
+#article-container td {
+  padding: 0.62em 0.9em;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.14);
+}
+
+#article-container tbody tr:last-child td {
+  border-bottom: none;
+}
+
+#article-container tbody tr {
+  transition: background 0.2s ease;
+}
+
+#article-container tbody tr:hover {
+  background: rgba(73, 177, 245, 0.05);
+}
+
+/* ---------- v2.5 Tags landing page ---------- */
+.tag-landing {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.1rem;
+  margin-top: 1.3rem;
+}
+
+.tag-landing-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  padding: 1.05rem 3rem 1.05rem 1.15rem;
+  background: var(--card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.tag-landing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  border-color: rgba(73, 177, 245, 0.25);
+}
+
+[data-theme="dark"] .tag-landing-card {
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+[data-theme="dark"] .tag-landing-card:hover {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.tag-landing-icon {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  color: #fff;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.tag-landing-card .tag-landing-info {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.tag-landing-name {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: var(--text-highlight-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tag-landing-meta {
+  font-size: 0.76rem;
+  color: #999;
+}
+
+[data-theme="dark"] .tag-landing-meta {
+  color: #888;
+}
+
+.tag-landing-card::after {
+  content: '\2192';
+  position: absolute;
+  right: 1.15rem;
+  top: 50%;
+  transform: translateY(-50%) translateX(-4px);
+  color: #49b1f5;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.tag-landing-card:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+.tag-landing-card.tag-lc-worldcup .tag-landing-icon {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+}
+
+.tag-landing-card.tag-lc-city .tag-landing-icon {
+  background: linear-gradient(135deg, #48dbfb, #0abde3);
+}
+
+.tag-landing-card.tag-lc-learn .tag-landing-icon {
+  background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+}
+
+@media (max-width: 640px) {
+  .tag-landing {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- v2.6 Small-screen cleanups ---------- */
+@media (max-width: 600px) {
+  .post-card-body {
+    padding-right: 1rem;
+  }
+
+  .post-card-body::after {
+    display: none;
+  }
+
+  .post-card-title {
+    padding-right: 0;
+  }
+}
+
 

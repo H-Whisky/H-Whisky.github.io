@@ -420,7 +420,7 @@
         throw new Error('Invalid API response');
       } catch (err) {
         console.error('Chatbot API error:', err);
-        return '呜呜，小咲的连接断掉了... 😢\n\n请检查 API 配置或稍后再试哦～';
+        return '呜呜，柯基的连接断掉了... 😢\n\n请检查 API 配置或稍后再试哦～';
       }
     }
 

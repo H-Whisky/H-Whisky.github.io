@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>页面走丢了 | H-Whisky's Notebook</title>
+<meta name="description" content="404 — 你要找的页面不存在或已被移动。返回 H-Whisky 的个人博客首页继续浏览。">
+<meta name="robots" content="noindex">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC",
+                 "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+    background:
+      linear-gradient(180deg, rgba(15, 18, 34, 0.82) 0%, rgba(15, 18, 34, 0.6) 55%, rgba(15, 18, 34, 0.88) 100%),
+      url('/img/404.jpg') center / cover no-repeat,
+      linear-gradient(135deg, #1a1a2e, #16213e);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    -webkit-font-smoothing: antialiased;
+  }
+  .code {
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(120deg, #49b1f5, #7c4dff 45%, #00c4b6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 6px 24px rgba(73, 177, 245, 0.35));
+  }
+  h1 {
+    margin: 1.2rem 0 0.6rem;
+    font-size: clamp(1.3rem, 4vw, 1.8rem);
+    letter-spacing: 0.03em;
+    font-weight: 700;
+  }
+  p {
+    max-width: 30em;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.9;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.8rem; justify-content: center; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.7rem 1.5rem;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #fff;
+    text-decoration: none;
+    background: linear-gradient(135deg, #49b1f5, #7c4dff);
+    box-shadow: 0 8px 22px rgba(73, 177, 245, 0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(73, 177, 245, 0.45); }
+  .btn.ghost {
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .btn.ghost:hover { background: rgba(255, 255, 255, 0.18); }
+  .note {
+    position: fixed;
+    bottom: 1.2rem;
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.05em;
+  }
+  .paw { display: inline-block; animation: wave 2.4s ease-in-out infinite; transform-origin: 70% 70%; }
+  @keyframes wave {
+    0%, 100% { transform: rotate(0); }
+    10% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+    30% { transform: rotate(14deg); }
+    40% { transform: rotate(-4deg); }
+    50% { transform: rotate(10deg); }
+    60%, 100% { transform: rotate(0); }
+  }
+</style>
+</head>
+<body>
+  <div class="code">404</div>
+  <h1>汪呜……页面走丢了 <span class="paw">🐾</span></h1>
+  <p>你访问的页面不存在，或已经被主人搬到了别处。<br>小柯基帮你找了一圈也没找到，先回首页看看吧～</p>
+  <div class="actions">
+    <a class="btn" href="/">🏠 返回首页</a>
+    <a class="btn ghost" href="/archives/">📂 文章归档</a>
+    <a class="btn ghost" href="/tags/">🏷️ 标签总览</a>
+  </div>
+  <div class="note">&copy; H-Whisky's Notebook</div>
+</body>
+</html>

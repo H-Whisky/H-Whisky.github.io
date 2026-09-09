@@ -2,11 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Critical: This is compiled output, not source
+## Critical: compiled output, now maintained directly
 
-This repository contains only the **generated static files** produced by `hexo generate`. There is no `package.json`, `_config.yml`, or Markdown source here. The Hexo source project (theme config, `source/_posts/*.md`, etc.) lives in a separate repository.
+This repository contains the **generated static files** produced by `hexo generate` (no `package.json`, `_config.yml`, or Markdown source here — the Hexo source project lives in a separate repo). **However, the current workflow maintains these static files directly in git** (homepage redesign, chatbot, etc.), so direct edits are the expected way to change this site.
 
-**Any direct edits to HTML/CSS/JS here will be overwritten** the next time `hexo deploy` pushes fresh output. For permanent changes, modify the Hexo source theme and regenerate.
+Caveat: if the Hexo source project ever runs `hexo deploy` again, its fresh output will overwrite these direct edits — keep them in sync deliberately.
 
 ## Local preview
 
@@ -34,7 +34,11 @@ There is no build step, dev server, linting, or test suite in this repo — it's
 - hexo-blog-encrypt (`lib/hbe.js`) for password-protected posts (included but no posts currently use it)
 - Simplified/Traditional Chinese toggle (`js/tw_cn.js`)
 - Code highlighting with copy button (highlight.js)
+- Custom homepage: glassmorphism welcome card + editorial "featured post" banner + 2-col post-card grid (`css/enhance.css` v2 section)
+- Corgi chatbot widget (`js/chatbot.js` + `css/chatbot.css`): inline rule-based offline replies; optionally points at an OpenAI-compatible endpoint via the `CONFIG` block (currently `apiEndpoint`/`apiKey` empty)
+- `tags/index.html` tag overview page; custom branded `404.html`
+- Enhancement layer (`js/enhance.js`): reading progress bar, scroll-reveal animations, parallax hero, auto-refresh footer copyright year
 
 ## Content
 
-3 blog posts (all in Chinese): city memories of Nanjing and Taizhou, plus PMP study notes. Tags: `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo.
+4 blog posts (all in Chinese): 2026 World Cup recap (2026-07-10), city memories of Nanjing and Taizhou, plus PMP study notes. Tags: `WorldCup-2026`, `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo (the World Cup post also uses local `img/wc2026_*.jpg`).

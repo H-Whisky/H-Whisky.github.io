@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ========== 2. Scroll-triggered Fade-in Animation ==========
   const initScrollReveal = () => {
     const targets = document.querySelectorAll(
-      '.recent-post-item, .card-widget, .article-sort-item, .aside-list-item'
+      '.recent-post-item, .card-widget, .article-sort-item, .aside-list-item, .post-card-grid > .post-card'
     );
 
     if (!('IntersectionObserver' in window)) {
@@ -174,6 +174,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  // ========== 9. Auto-Refresh Footer Copyright Year ==========
+  const refreshFooterYear = () => {
+    const copyright = document.querySelector('#footer-wrap .copyright');
+    if (!copyright) return;
+
+    const currentYear = new Date().getFullYear();
+    const match = copyright.textContent.match(/(\d{4})\s*-\s*(\d{4})/);
+    if (match && parseInt(match[2], 10) < currentYear) {
+      copyright.textContent = copyright.textContent.replace(match[0], `${match[1]} - ${currentYear}`);
+    }
+  };
+
   // ========== Initialize All Enhancements ==========
   createProgressBar();
   initScrollReveal();
@@ -183,4 +195,5 @@ document.addEventListener('DOMContentLoaded', () => {
   handleExternalLinks();
   enhanceImages();
   enhanceKeyboardNav();
+  refreshFooterYear();
 });
