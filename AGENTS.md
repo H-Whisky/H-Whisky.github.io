@@ -41,6 +41,38 @@ There is no build step, dev server, linting, or test suite in this repo — it's
 - `tags/index.html` tag overview page; custom branded `404.html`
 - Enhancement layer (`js/enhance.js`): reading progress bar, scroll-reveal animations, parallax hero, auto-refresh footer copyright year
 
+## Images & performance pipeline
+
+Images are hosted in the separate `H-Whisky/Resource-Pic` repo and served through jsDelivr:
+`https://cdn.jsdelivr.net/gh/H-Whisky/Resource-Pic@main/images/<name>.<ext>`.
+
+Current setup (do not regress):
+
+- **WebP first, original as fallback.** Every photo is wrapped in
+  `<picture><source srcset="....webp" type="image/webp"><img src="....jpg" ...></picture>`;
+  the local sidebar avatar uses `/img/personal_avatar.webp` with `/img/personal_avatar.jpg` fallback.
+- **Sizing.** Photos are capped at 1600px on the long edge before encoding (originals were up to 2560px / 20MB);
+  the avatar is a 240×240 square.
+- **`width`/`height` on every `<img>`** so the browser reserves space (no layout shift).
+- **`css/enhance.css`**: `picture { display: block; }` plus explicit height context for
+  `.post-card-image > picture` and `.avatar-img > picture`. Do NOT switch to `display: contents`.
+- **Homepage header banner** uses inline `image-set()` (WebP + JPEG) instead of a bare `url()`.
+- **Preload LCP**: `index.html` has two `<link rel="preload" as="image" ... type="image/webp" fetchpriority="high">`
+  (banner + first featured card photo).
+- **All non-LCP images** are `loading="lazy" decoding="async"`.
+
+Regenerate/update flow (Pillow lives in the managed venv):
+
+1. Compress/resize with Pillow (progressive JPEG, quality ~78-82 for photos) and save a `.webp`
+   sibling (`method=6`, quality ~76-85).
+2. Push both to `Resource-Pic` (`images/`), then update the `<picture>` blocks here.
+3. If a file is *overwritten at the same path*, purge the CDN cache first:
+   `curl "https://purge.jsdelivr.net/gh/H-Whisky/Resource-Pic@main/images/<file>"` → `status: finished`.
+4. Verify with `curl` that the CDN byte count matches the local file, then hard-refresh (`Cmd+Shift+R`).
+
+Push note: `git push` over `github.com:22` may be reset by the sandbox gateway; use
+`ssh://git@ssh.github.com:443/<user>/<repo>.git` as the fallback remote.
+
 ## Content
 
-5 blog posts (all in Chinese): city memories of Nanjing and Taizhou, PMP study notes, an "About me" page embedding the library page, and "师门历年合照" (mentor-group photos). Tags: `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`, `About`, `Life`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo.
+5 blog posts (all in Chinese): city memories of Nanjing and Taizhou, PMP study notes, an "About me" page embedding the library page, and "师门历年合照" (mentor-group photos, 2020/2023/2024/2026). Tags: `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`, `About`, `Life`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo.
