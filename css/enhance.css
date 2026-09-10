@@ -3,6 +3,13 @@
    Performance, UX, Accessibility & Visual Polish
    ============================================================ */
 
+/* ---------- WebP <picture> 包装：保持与原 img 完全一致的布局 ----------
+   picture 用 display:block 而非 contents（contents 在某些引擎下对替换元素有塌陷风险），
+   并为依赖百分比高度的容器补上高度上下文。 */
+picture { display: block; }
+.post-card-image > picture { width: 100%; height: 100%; }
+.avatar-img > picture { width: 100%; height: 100%; }
+
 /* ---------- 1. Global Smooth Scroll & Render ---------- */
 html {
   scroll-behavior: smooth;
