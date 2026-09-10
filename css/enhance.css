@@ -200,7 +200,7 @@ code, pre, .code-lang {
 }
 
 .post-card-gradient-learn {
-  background: linear-gradient(135deg, #f5a24b 0%, #ee7a24 50%, #e05a1a 100%);
+  background: linear-gradient(135deg, #8ed3a5 0%, #5cb377 50%, #3f8f5c 100%);
 }
 
 .post-card-gradient-learn::before {
@@ -627,6 +627,12 @@ code, pre, .code-lang {
 
 .tag-learn {
   background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+  color: #fff;
+}
+
+/* ---------- 6c-2. Tag: 生活见闻 ---------- */
+.tag-life {
+  background: linear-gradient(135deg, #8ed3a5, #3f8f5c);
   color: #fff;
 }
 
@@ -1431,6 +1437,10 @@ figure.highlight:hover {
 
 .tag-landing-card.tag-lc-learn .tag-landing-icon {
   background: linear-gradient(135deg, #a29bfe, #6c5ce7);
+}
+
+.tag-landing-card.tag-lc-life .tag-landing-icon {
+  background: linear-gradient(135deg, #8ed3a5, #3f8f5c);
 }
 
 @media (max-width: 640px) {

@@ -35,7 +35,7 @@ There is no build step, dev server, linting, or test suite in this repo — it's
 - Simplified/Traditional Chinese toggle (`js/tw_cn.js`)
 - Code highlighting with copy button (highlight.js)
 - Custom homepage: glassmorphism welcome card + editorial "featured post" banner + 2-col post-card grid (`css/enhance.css` v2 section)
-- Warm "corgi" palette (v3 override at the end of `css/enhance.css`): replaces Butterfly default blue accents with orange/brown (`#f0883e`/`#d96f24`), light + dark mode
+- Greenery palette (override at the end of `css/enhance.css`): replaces Butterfly default blue accents with light forest green (`#5cb377`/`#3f8f5c`), light + dark mode; card gradients and tag chips follow suit
 - Corgi chatbot widget (`js/chatbot.js` + `css/chatbot.css`): rule-based offline fallback; real AI via DeepSeek (`https://api.deepseek.com/chat/completions`, OpenAI-compatible). Key resolution: visitor key entered in the panel ⚙ settings (stored in `localStorage`, never uploaded) > embedded `CONFIG.apiKey` (currently empty) > local canned replies
 - Corgi is rendered as a low-poly 3D character (`js/corgi3d.js`, Three.js from CDN, built from primitives, no external model) mounted on the floating button; falls back to the 2D SVG on load failure
 - `tags/index.html` tag overview page; custom branded `404.html`
@@ -43,4 +43,4 @@ There is no build step, dev server, linting, or test suite in this repo — it's
 
 ## Content
 
-3 blog posts (all in Chinese): city memories of Nanjing and Taizhou, plus PMP study notes. Tags: `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo.
+5 blog posts (all in Chinese): city memories of Nanjing and Taizhou, PMP study notes, an "About me" page embedding the library page, and "师门历年合照" (mentor-group photos). Tags: `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`, `About`, `Life`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo.
