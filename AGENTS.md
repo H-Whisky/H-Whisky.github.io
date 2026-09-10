@@ -44,3 +44,22 @@ There is no build step, dev server, linting, or test suite in this repo — it's
 ## Content
 
 5 blog posts (all in Chinese): city memories of Nanjing and Taizhou, PMP study notes, an "About me" page embedding the library page, and "师门历年合照" (mentor-group photos). Tags: `CityMem_Nanjing`, `CityMem_Taizhou`, `Learn_PMP`, `About`, `Life`. Post images are hosted on `cdn.jsdelivr.net` under the `H-Whisky/Resource-Pic` repo.
+
+## Images & performance (source-only WebP swap)
+
+Every `<img>` that points at a CDN photo or at the sidebar avatar uses a **`.webp` URL**; the original `.jpg`/`.png` files are kept in the repo but are no longer referenced by `<img>`.
+
+**Hard rules — do not reintroduce these; they caused a layout regression once and were reverted:**
+
+- **NEVER add `width`/`height` attributes to `<img>`.** All image sizing on this site is CSS-driven (`.post-card-image`, `#article-container img`, `.avatar-img img`, …). Hard-coded dimensions fight the CSS and stretch images.
+- **NEVER wrap images in `<picture>`**, and do not add `preload` / `image-set()` for images. Plain `<img src="….webp">` only.
+- Any WebP variant MUST keep the **exact aspect ratio** of the original file (scale only, never crop). The avatar is 655×687 originally — do not square-crop it.
+- `og:image` / `twitter:image` / `data-image` (social sharing + lightbox) intentionally keep `.jpg`/`.png` — WebP is poorly supported by social crawlers. Do not "fix" these to WebP.
+
+**Regenerating WebP** (Pillow, venv at `~/.workbuddy/binaries/python/envs/default`): scale the longest edge to ≤1600px (background 1920px), keep the ratio, save `WEBP` q78–88 `method=6`. Push to `H-Whisky/Resource-Pic` under `images/`; local avatars go in this repo's `img/`.
+
+**Swap script pattern:** regex only inside `<img …>` tags and replace the `src` value; assert afterwards that the diff contains nothing but `.jpg`/`.png` → `.webp` on the same line.
+
+**CDN cache:** jsDelivr caches `@main` paths for ~7 days. When a file is replaced at the same path, purge it via `https://purge.jsdelivr.net/gh/H-Whisky/Resource-Pic@main/images/<file>` (returns `status: finished`). New files need no purge.
+
+**Sizes after optimization:** 11 CDN photos 4.37 MB → 2.24 MB; avatar 657 KB → 8 KB.
