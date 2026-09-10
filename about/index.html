@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport">
+<meta content="#F7F2E9" name="theme-color">
+<meta name="description" content="花威的数字生活馆 · 个人生活展：白天管数据库，晚上追配速。">
+<title>花威的数字生活馆 · 白天管数据库，晚上追配速</title>
+<style>
+  :root{
+    --bg:#F7F2E9;            /* 画廊米白 */
+    --card:#FFFDF8;          /* 卡片暖白 */
+    --ink:#1E3B2F;           /* 墨绿主色 */
+    --ink-soft:#3D5C4C;      /* 墨绿柔和 */
+    --ink-faint:#7C8F84;     /* 墨绿灰 */
+    --amber:#C97F1B;         /* 琥珀主色 */
+    --amber-deep:#A2620C;    /* 琥珀深 */
+    --amber-soft:#F3D9A4;    /* 琥珀浅 */
+    --amber-faint:#FAF0DA;   /* 琥珀极浅 */
+    --line:#E8DFCC;          /* 分隔线 */
+    --shadow:0 6px 24px rgba(30,59,47,.08);
+    --radius:18px;
+    --maxw:760px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans SC",sans-serif;
+    line-height:1.7;
+    overflow-x:hidden;
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  ::selection{background:var(--amber-soft);color:var(--ink)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+
+  /* ===== 顶部画廊装饰 ===== */
+  .frame-top{height:6px;background:linear-gradient(90deg,var(--ink) 0%,var(--ink) 33%,var(--amber) 33%,var(--amber) 66%,var(--ink-faint) 66%,var(--ink-faint) 100%)}
+
+  /* ===== 滚动进度条 ===== */
+  .progress{position:fixed;top:0;left:0;height:3px;width:0;background:linear-gradient(90deg,var(--amber),var(--amber-deep));z-index:99;transition:width .1s linear}
+
+  /* ===== 入场动效 ===== */
+  .reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.22,.61,.36,1)}
+  .reveal.in{opacity:1;transform:none}
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}
+
+  /* ===== 组件标题（策展标签）===== */
+  section{padding:56px 0 8px}
+  .sec-head{margin-bottom:26px}
+  .sec-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+    color:var(--amber-deep);font-weight:700;
+  }
+  .sec-eyebrow::before{content:"";width:22px;height:2px;background:var(--amber);display:inline-block}
+  .sec-title{font-size:clamp(22px,5.4vw,30px);font-weight:800;margin-top:6px;letter-spacing:.02em}
+  .sec-sub{font-size:13px;color:var(--ink-faint);margin-top:4px}
+
+  /* ===== 1. HeroCard ===== */
+  .hero{padding-top:44px}
+  .hero-card{
+    background:var(--card);border:1px solid var(--line);border-radius:calc(var(--radius) + 6px);
+    box-shadow:var(--shadow);padding:34px 26px 30px;position:relative;overflow:hidden;
+  }
+  .hero-card::before{
+    content:"";position:absolute;top:-60px;right:-60px;width:190px;height:190px;border-radius:50%;
+    background:radial-gradient(circle,var(--amber-faint) 0%,rgba(243,217,164,.25) 55%,transparent 72%);
+  }
+  .hero-kicker{font-size:11px;letter-spacing:.24em;color:var(--ink-faint);text-transform:uppercase;font-weight:600}
+  .hero-name{font-size:clamp(34px,9vw,46px);font-weight:900;letter-spacing:.04em;margin-top:8px;line-height:1.2}
+  .hero-name .leo{
+    display:inline-block;font-size:.42em;vertical-align:super;color:var(--amber-deep);
+    border:1.5px solid var(--amber-soft);border-radius:99px;padding:2px 12px;letter-spacing:.12em;margin-left:10px;font-weight:700;background:var(--amber-faint)
+  }
+  .hero-title{
+    margin-top:10px;font-size:clamp(15px,3.8vw,18px);font-weight:700;color:var(--ink-soft);letter-spacing:.03em
+  }
+  .hero-title em{font-style:normal;color:var(--amber-deep)}
+  .hero-title .x{color:var(--amber);font-weight:800;margin:0 8px;font-size:.85em}
+  .hero-slogan{margin-top:16px;font-size:15px;color:var(--ink-soft)}
+  .hero-slogan strong{color:var(--ink)}
+  .vibe{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px}
+  .vibe span{
+    font-size:12.5px;font-weight:600;color:var(--ink);background:var(--bg);
+    border:1px solid var(--line);border-radius:99px;padding:6px 14px;letter-spacing:.02em;
+    transition:transform .25s ease,border-color .25s ease,background .25s ease;
+  }
+  .vibe span:hover{transform:translateY(-2px);border-color:var(--amber);background:var(--amber-faint)}
+  .vibe span.hot{background:var(--ink);color:#F5EFE2;border-color:var(--ink)}
+
+  /* ===== 2. StatsBoard ===== */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  @media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+  .stat{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 14px 16px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .stat::after{content:"";position:absolute;left:0;top:0;width:100%;height:3px;background:var(--amber-soft)}
+  .stat:nth-child(odd)::after{background:var(--ink-soft)}
+  .stat-ico{font-size:22px;line-height:1}
+  .stat-val{font-size:clamp(21px,5.6vw,27px);font-weight:900;color:var(--amber-deep);margin-top:8px;font-variant-numeric:tabular-nums;letter-spacing:.01em}
+  .stat-val small{font-size:.5em;font-weight:700;color:var(--ink-faint);margin-left:2px}
+  .stat-label{font-size:12px;color:var(--ink-faint);margin-top:3px}
+
+  /* ===== 3. TimelinePro ===== */
+  .timeline{position:relative;padding-left:26px}
+  .timeline::before{
+    content:"";position:absolute;left:7px;top:6px;bottom:6px;width:2px;
+    background:repeating-linear-gradient(to bottom,var(--amber) 0 6px,transparent 6px 12px);
+  }
+  .tl-item{position:relative;padding-bottom:30px}
+  .tl-item:last-child{padding-bottom:4px}
+  .tl-dot{
+    position:absolute;left:-26px;top:6px;width:16px;height:16px;border-radius:50%;
+    background:var(--card);border:3px solid var(--amber);box-shadow:0 0 0 4px var(--bg);
+  }
+  .tl-item.life .tl-dot{border-color:var(--ink-soft)}
+  .tl-tag{
+    display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.14em;
+    padding:3px 10px;border-radius:99px;margin-bottom:8px;
+  }
+  .tl-item.career .tl-tag{background:var(--amber-faint);color:var(--amber-deep);border:1px solid var(--amber-soft)}
+  .tl-item.life .tl-tag{background:#E7EFE9;color:var(--ink-soft);border:1px solid #CDDCD2}
+  .tl-period{font-size:12px;font-weight:700;color:var(--ink-faint);letter-spacing:.06em}
+  .tl-head{margin-top:2px}
+  .tl-org{font-size:18px;font-weight:800}
+  .tl-role{font-size:13.5px;color:var(--amber-deep);font-weight:700;margin-top:2px}
+  .tl-body{
+    margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 18px;box-shadow:var(--shadow);
+  }
+  .tl-body li{
+    list-style:none;font-size:13.5px;color:var(--ink-soft);padding-left:18px;position:relative;margin-bottom:6px
+  }
+  .tl-body li::before{content:"—";position:absolute;left:0;color:var(--amber);font-weight:700}
+  .tl-body li:last-child{margin-bottom:0}
+
+  /* ===== 4. BentoGallery ===== */
+  .bento{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  @media(max-width:560px){.bento{grid-template-columns:1fr}}
+  .b-card{
+    border-radius:var(--radius);overflow:hidden;background:var(--card);
+    border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;
+    transition:transform .3s ease,box-shadow .3s ease;
+  }
+  .b-card:hover{transform:translateY(-4px);box-shadow:0 12px 30px rgba(30,59,47,.14)}
+  .b-cover{height:112px;position:relative;overflow:hidden}
+  .b-cover svg{position:absolute;inset:0;width:100%;height:100%}
+  .b-role{
+    position:absolute;left:12px;top:12px;font-size:10px;font-weight:800;letter-spacing:.14em;
+    color:#FFFDF8;background:rgba(30,59,47,.55);backdrop-filter:blur(4px);
+    padding:4px 10px;border-radius:99px;text-transform:uppercase;
+  }
+  .b-body{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
+  .b-name{font-size:15.5px;font-weight:800;letter-spacing:.02em}
+  .b-desc{font-size:13px;color:var(--ink-faint);margin-top:6px;flex:1}
+
+  /* ===== 5. SkillRadar ===== */
+  .skills{display:grid;grid-template-columns:1fr 1fr;gap:14px 26px}
+  @media(max-width:560px){.skills{grid-template-columns:1fr}}
+  .skill .sk-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+  .skill .sk-name{font-size:13.5px;font-weight:700}
+  .skill .sk-name.soft::after{
+    content:"软技能";font-size:9.5px;font-weight:800;color:var(--amber-deep);
+    background:var(--amber-faint);border:1px solid var(--amber-soft);
+    border-radius:99px;padding:1px 7px;margin-left:8px;vertical-align:1px;letter-spacing:.1em
+  }
+  .skill .sk-val{font-size:12.5px;font-weight:800;color:var(--amber-deep);font-variant-numeric:tabular-nums}
+  .sk-bar{height:8px;border-radius:99px;background:var(--bg);border:1px solid var(--line);overflow:hidden}
+  .sk-fill{height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--ink-soft),var(--ink));transition:width 1.2s cubic-bezier(.22,.61,.36,1)}
+  .skill.soft .sk-fill{background:linear-gradient(90deg,var(--amber),var(--amber-deep))}
+
+  /* ===== 6. Testimonial ===== */
+  .quotes{display:flex;flex-wrap:wrap;gap:12px}
+  .quote{
+    flex:1 1 calc(50% - 12px);min-width:260px;background:var(--card);
+    border:1px solid var(--line);border-radius:var(--radius);padding:18px 18px 14px;
+    box-shadow:var(--shadow);position:relative;transition:transform .3s ease;
+  }
+  .quote:hover{transform:translateY(-3px) rotate(-.4deg)}
+  .quote::before{
+    content:"“";position:absolute;top:2px;left:12px;font-size:44px;font-weight:900;
+    color:var(--amber-soft);font-family:Georgia,serif;line-height:1;
+  }
+  .quote-text{font-size:13.5px;color:var(--ink-soft);margin-top:14px}
+  .quote-meta{margin-top:12px;display:flex;align-items:center;gap:8px}
+  .quote-ava{
+    width:30px;height:30px;border-radius:50%;flex:none;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;font-weight:800;color:#FFFDF8;background:var(--ink-soft);
+  }
+  .quote:nth-child(even) .quote-ava{background:var(--amber)}
+  .quote-name{font-size:12.5px;font-weight:800}
+  .quote-rel{font-size:11px;color:var(--ink-faint);background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:2px 9px;margin-left:auto}
+
+  /* ===== 7. ContactSocial ===== */
+  .contact-card{
+    background:linear-gradient(150deg,var(--ink) 0%,#163026 100%);
+    border-radius:calc(var(--radius) + 6px);padding:32px 26px;color:#F2EDE0;
+    box-shadow:0 14px 40px rgba(30,59,47,.28);position:relative;overflow:hidden;
+  }
+  .contact-card::before{
+    content:"";position:absolute;top:-70px;right:-70px;width:220px;height:220px;border-radius:50%;
+    background:radial-gradient(circle,rgba(201,127,27,.35) 0%,transparent 70%);
+  }
+  .cc-eyebrow{font-size:11px;letter-spacing:.24em;color:var(--amber-soft);text-transform:uppercase;font-weight:700}
+  .cc-title{font-size:clamp(21px,5.4vw,26px);font-weight:900;margin-top:8px}
+  .cc-ice{font-size:13.5px;color:#CBD8CE;margin-top:12px;max-width:52ch}
+  .cc-ice strong{color:var(--amber-soft)}
+  .channels{margin-top:22px;display:grid;gap:10px}
+  .chan{
+    display:flex;align-items:flex-start;gap:14px;background:rgba(255,253,248,.06);
+    border:1px solid rgba(255,253,248,.14);border-radius:14px;padding:14px 16px;
+    transition:background .25s ease,transform .25s ease;
+  }
+  .chan:hover{background:rgba(255,253,248,.11);transform:translateX(4px)}
+  .chan-ico{
+    width:38px;height:38px;border-radius:11px;flex:none;display:flex;align-items:center;justify-content:center;
+    font-size:18px;background:rgba(243,217,164,.16);border:1px solid rgba(243,217,164,.3)
+  }
+  .chan-p{font-size:12px;letter-spacing:.12em;color:#A9BBAE;text-transform:uppercase;font-weight:700}
+  .chan-id{font-size:14.5px;font-weight:800;color:#FFFDF8;margin-top:1px;word-break:break-all}
+  .chan-act{font-size:12.5px;color:#CBD8CE;margin-top:3px}
+  .chan-act em{font-style:normal;color:var(--amber-soft);font-weight:700}
+
+  /* ===== 页脚 ===== */
+  footer{padding:48px 0 56px;text-align:center}
+  .foot-line{font-size:12px;color:var(--ink-faint);letter-spacing:.1em}
+  .foot-line b{color:var(--amber-deep)}
+  .foot-paw{font-size:20px;margin-top:10px}
+
+  /* ===== 回到顶部 ===== */
+  .top-btn{
+    position:fixed;right:18px;bottom:26px;width:44px;height:44px;border-radius:50%;
+    background:var(--ink);color:#F5EFE2;border:none;font-size:18px;cursor:pointer;
+    box-shadow:0 8px 22px rgba(30,59,47,.3);opacity:0;pointer-events:none;
+    transition:opacity .3s ease,transform .3s ease;z-index:98;
+  }
+  .top-btn.show{opacity:1;pointer-events:auto}
+  .top-btn:active{transform:scale(.92)}
+
+  /* ===== 尊重系统减弱动效 ===== */
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    .reveal{opacity:1;transform:none;transition:none}
+    .sk-fill{transition:none}
+    .b-card,.quote,.chan,.vibe span,.top-btn{transition:none}
+    *{animation:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="frame-top"></div>
+
+<!--pnid:BBExFDsQMdSoHBaTJunL5u--><!-- ============ 1 · HeroCard ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-card reveal">
+      <p class="hero-kicker"><!--pnid:gef0JzheVC252V9oAMk88k-->Personal Museum · 个人生活展 · Vol.93</p>
+      <h1 class="hero-name"><!--pnid:IvHGUpdKlDUky9eGTGEHiS-->花威<span class="leo"><!--pnid:V4WTVyZlB01dN5J3SYeKQx-->♌ 狮子座</span></h1>
+      <p class="hero-title"><!--pnid:0owKAsdu5P9dldjrmIzmEJ-->数据库产品负责人<span class="x"><!--pnid:nLRME1ayQa1fWdDT8u28lT-->×</span><!--pnid:ZAI6NKrxHccza3QBCeHfLi-->撸铁常驻民<span class="x"><!--pnid:dCVtOUS3NsmVXb2nJPLABJ-->×</span><!--pnid:FTp3onrvLUBG88gMcZUhYJ-->尼康 Z52 玩家</p>
+      <p class="hero-slogan"><!--pnid:XscK1IR6Ov2XNGCXFfsIKB-->
+        白天在数据库里跟时序数据打交道，晚上在健身房跟杠铃片较劲。
+        周末要么绕着玄武湖跑步，要么在南京街头按快门。
+        <strong><!--pnid:UUDNcNGA2e40df8YjlxrxK-->住秦淮区，坐标南京，正在寻找能一起约跑约球约饭的朋友。</strong></p>
+      <div class="vibe">
+        <span class="hot"><!--pnid:ijXrr2nPC3PyGTKgraK6O5-->♌ 7 月生狮子</span>
+        <span><!--pnid:7WBXizTqHcZaDMcnHcTzhY-->🏋️ 健身八年</span>
+        <span><!--pnid:HCUrQbUTI2tRwCSb2HfegZ-->🏃 半个跑者</span>
+        <span><!--pnid:nlmvVCLvF51I6N67dnToca-->📷 尼康 Z52</span>
+        <span><!--pnid:36cc9iWGKd8fQWIAETDJ2p-->🏀 周三篮球夜</span>
+        <span><!--pnid:a4l3kPc3uUpLqF9i892Ern-->🛢️ 时序数据库</span>
+        <span><!--pnid:dJMro1WDxcORFeKetoKoqU-->✍️ 订阅号主理人</span>
+        <span><!--pnid:7Q8d45RYDbDJZxYzoD5NmR-->📍 南京 · 秦淮</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--pnid:djkGJhHWPVdBzlfFJufX1b--><!-- ============ 2 · StatsBoard ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow"><!--pnid:fSu3UHvFnuA4eYsaC5worB-->Fun Stats</span>
+      <h2 class="sec-title"><!--pnid:zHVcRTQVLaFUUGWHfBI6GA-->趣味数据 · 生活侧写</h2>
+      <p class="sec-sub"><!--pnid:ZESTrQIs1QPeuykAnd6OhB-->不是 KPI，是我这个人的生活底稿</p>
+    </div>
+    <div class="stats">
+      <div class="stat reveal"><div class="stat-ico"><!--pnid:yV4jmdyegMqfdvJm3deM8m-->🏃</div><div class="stat-val" data-count="1500" data-suffix="+"><!--pnid:lgDqFBsDjHoEqDycslBNKV-->0</div><div class="stat-label"><!--pnid:oaLgSoXTSPXZYnBMlZuZzn-->跑步累计里程 (km)</div></div>
+      <div class="stat reveal d1"><div class="stat-ico"><!--pnid:CVA6iNtcmP2nWkbaiP9sQv-->🏋️</div><div class="stat-val" data-count="8" data-suffix=" 年"><!--pnid:n80yjPUYwKRSL208MWVRMh-->0</div><div class="stat-label"><!--pnid:aUDC2YU4FAAYOqk7qvPS1K-->健身从未断卡</div></div>
+      <div class="stat reveal d2"><div class="stat-ico"><!--pnid:CryMpaqowCkeRN4aywfw76-->📷</div><div class="stat-val" data-count="12000" data-suffix="+"><!--pnid:9wwev0oG4E2G6h1Rvvd0NY-->0</div><div class="stat-label"><!--pnid:kOrpZLTCCI6U1HkUw3jiV3-->Z52 快门数（张）</div></div>
+      <div class="stat reveal"><div class="stat-ico"><!--pnid:g3A6fX0unOD6jFDOtm3BFi-->🛢️</div><div class="stat-val" data-count="30" data-suffix="+"><!--pnid:i7ocF4UoJRK1crbeLRVJ5h-->0</div><div class="stat-label"><!--pnid:GMMeBacAE6o2d9VtQPGQcL-->数据库部署网省现场</div></div>
+      <div class="stat reveal d1"><div class="stat-ico"><!--pnid:r4Cz2tXgIqitRBvQtIe7qp-->✍️</div><div class="stat-val" data-count="80" data-suffix="+"><!--pnid:SKPIw0RnUTmjbbPwiSU3p4-->0</div><div class="stat-label"><!--pnid:LnXmMUNVqqWqoN55UJmI7Q-->「花下烟客」文章数</div></div>
+      <div class="stat reveal d2"><div class="stat-ico"><!--pnid:tC1yCw91TbjaJSbG9NCp2S-->🏀</div><div class="stat-val" data-count="23" data-suffix=" 座"><!--pnid:5qUaI12qgf2JNFLePKJ9Zp-->0</div><div class="stat-label"><!--pnid:hfCQwZYJz4Gkx0iQcxXL1x-->打过篮球的城市</div></div>
+    </div>
+  </div>
+</section>
+
+<!--pnid:HvInFeTl9fvnjmpJXOIgrI--><!-- ============ 3 · TimelinePro ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow"><!--pnid:gpUVPX3KMWmwmxGDMOjE4t-->Life Events</span>
+      <h2 class="sec-title"><!--pnid:VRBfDqLaxGWwMmAfalHwNv-->生活大事记 · 双轨人生</h2>
+      <p class="sec-sub"><!--pnid:ZjSPRhhf9fXFsvooielKJa-->career 线和 life 线交替进行，缺一不可</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item career reveal">
+        <span class="tl-dot"></span>
+        <span class="tl-tag"><!--pnid:PMgWwCIqZohpM6IlPewrcT-->CAREER · 职业</span>
+        <div class="tl-head">
+          <span class="tl-period"><!--pnid:bwWCFNZn83y05tBYc6Ci7s-->2023 — 至今</span>
+          <div class="tl-org"><!--pnid:OcNK0Tq2iSOrPfcPfBDbRc-->XXXX · 数据库产品线负责人</div>
+          <div class="tl-role"><!--pnid:B6eZdf1zEZ2xUONREUGnuY-->时序库 &amp; 通用库 · 全流程当家人</div>
+        </div>
+        <ul class="tl-body">
+          <li><!--pnid:Cu86Qre79QLFdmIw8lcA9k-->从写代码升级到管产品线：立项、需求、实施、售前一条龙，全学会了</li>
+          <li><!--pnid:vRmDtasIJ3FF5Jd6yT2swt-->带着时序数据库在全国XX调度系统里「安家落户」，适配各种消息总线现场</li>
+          <li><!--pnid:CNs7VY3Um6GrX4nmtE5VM1-->最大的成长：背锅的姿势比以前标准多了</li>
+        </ul>
+      </div>
+      <div class="tl-item life reveal">
+        <span class="tl-dot"></span>
+        <span class="tl-tag"><!--pnid:8E2YVDJeVCHpC70BnV7PDo-->LIFE · 生活</span>
+        <div class="tl-head">
+          <span class="tl-period"><!--pnid:Hmuc3lwZ2NAAWQVNv7dIb3-->2021 · 夏</span>
+          <div class="tl-org"><!--pnid:XVFuUY4i7DR2eniixKVhvh-->南京 · 秦淮 · 安家</div>
+          <div class="tl-role"><!--pnid:xeIx972tavX6ZbNB71Jzsx-->从扬州来，在御道街落下脚</div>
+        </div>
+        <ul class="tl-body">
+          <li><!--pnid:QwiAWfu5ZNKkXPQwio1MZL-->研究生毕业，拖着行李箱正式成为「新南京人」</li>
+          <li><!--pnid:zasPKM1GkfsZ9wsYImIPnj-->从自动驾驶转行做 AI RPA 和数据库，本来是意外，结果意外地合适</li>
+          <li><!--pnid:zDUa5uVKiUpzmZ0m7i1YiS-->发现了玄武湖环湖线，从此跑步有了固定片场</li>
+        </ul>
+      </div>
+      <div class="tl-item life reveal">
+        <span class="tl-dot"></span>
+        <span class="tl-tag"><!--pnid:b64RKj3GT3iED2o707MEW6-->LIFE · 生活</span>
+        <div class="tl-head">
+          <span class="tl-period"><!--pnid:qnJf7c23GZQFAeWAq4ycJv-->2020 · 秋</span>
+          <div class="tl-org"><!--pnid:pvTjWb45Kcllcd1kK8wPvc-->入手尼康 Z52</div>
+          <div class="tl-role"><!--pnid:27D4K9j59V5omjhkgLdD6u-->摄影入坑起点 · 钱包瘦身的开始</div>
+        </div>
+        <ul class="tl-body">
+          <li><!--pnid:lIe9iEEFvEwtW2xjT3gxpl-->第一台无反，从此每个月的工资有了新去向：镜头</li>
+          <li><!--pnid:GoX4oVVYypWkysoYN0xLba-->铭记第一次拍星空糊成奶油的那晚，糊得很有氛围感</li>
+          <li><!--pnid:bh4foZyruwax2MFq6pylHR-->摄影成了写代码之外唯一不用 debug 的爱好</li>
+        </ul>
+      </div>
+      <div class="tl-item career reveal">
+        <span class="tl-dot"></span>
+        <span class="tl-tag"><!--pnid:9Jm7vgoLT2aqGdLDRfuxvd-->CAREER · 职业</span>
+        <div class="tl-head">
+          <span class="tl-period"><!--pnid:qEpcKvyR6avCDYt6WOc1rn-->2019 — 2021</span>
+          <div class="tl-org"><!--pnid:awcBMrJS4RrgCZUE84uS3i-->纽劢科技 &amp; 文远知行 · 自动驾驶实习</div>
+          <div class="tl-role"><!--pnid:7mB7zyxIkPeKyUArgqToPI-->融合仿真测试 · HMI 人机交互</div>
+        </div>
+        <ul class="tl-body">
+          <li><!--pnid:pjE2tNhw8OpArkTLXhu6ug-->在 ROS 里分析 Rosbag 数据，给自动泊车和高速代驾画人机交互界面</li>
+          <li><!--pnid:oT5W7AZzNccZTgSx5iGzNN-->全程参与德国大众 ASPISE 技术审核，见识了什么叫「严谨到厘米」</li>
+          <li><!--pnid:N4w2qmtitJRcI15Hgh2kVO-->见证了自动驾驶从「科幻片」到「上下班通勤」的距离</li>
+        </ul>
+      </div>
+      <div class="tl-item career reveal">
+        <span class="tl-dot"></span>
+        <span class="tl-tag"><!--pnid:TrLAJBN5AB8MmoYnnhWpIM-->CAREER · 职业</span>
+        <div class="tl-head">
+          <span class="tl-period"><!--pnid:08ci4TANuIQHydmDRwY73f-->2015 — 2021</span>
+          <div class="tl-org"><!--pnid:hTo5dxtPBDC9ynmEuBK6Cr-->扬州大学 · 计算机技术 硕士</div>
+          <div class="tl-role"><!--pnid:wxRmYB0Z8ZtjEQP5Qc8lGH-->本科写 C++ · 研究生写论文</div>
+        </div>
+        <ul class="tl-body">
+          <li><!--pnid:cbHetlII164MRGbCs6yGQ8-->毕业论文写的是自动驾驶虚拟测试平台，现在居然还在 AI 圈里转</li>
+          <li><!--pnid:BArKhYGGXPfGhSYJlb5liB-->拿了奖学金、优秀毕业生，也顺便成了校健身房资深会员</li>
+          <li><!--pnid:QPjbm9i4rD5BTd9O3z93fk-->健身房从「减肥手段」进化成「精神支柱」，就是在这里</li>
+        </ul>
+      </div>
+      <div class="tl-item life reveal">
+        <span class="tl-dot"></span>
+        <span class="tl-tag"><!--pnid:5sqq2QvmRQOOJwNeoUibv7-->LIFE · 生活</span>
+        <div class="tl-head">
+          <span class="tl-period"><!--pnid:RX8bF08GnDLkdkRcY3ic6h-->1993 · 7 月</span>
+          <div class="tl-org"><!--pnid:m24pnhrRmk9JDVu6YYVBVn-->泰州 · 一头小狮子出生</div>
+          <div class="tl-role"><!--pnid:hne9KVkhdXJMbfVQnc40Q4--> Leo · 全年最优出生月份</div>
+        </div>
+        <ul class="tl-body">
+          <li><!--pnid:bKheMcbkbPOjGXUOsxBThu-->狮子座，天生自带「再多举一组」的固执</li>
+          <li><!--pnid:v0dEiPKVeCd3qUjHc5pO8K-->长大后果然又当负责人又撸铁，都挺符合人设的</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--pnid:TDjwhNQSSLA1UuCYAR5jzU--><!-- ============ 4 · BentoGallery ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow"><!--pnid:L0aA7Bke1paMMafOKKDErj-->The Mix</span>
+      <h2 class="sec-title"><!--pnid:BUGOrxDptUmaIIN9VAMkRR-->兴趣宫格 · 皆可策展</h2>
+      <p class="sec-sub"><!--pnid:gUYauMm6dpjpSinocscHy8-->每个爱好都被我认真包装成了「项目」</p>
+    </div>
+    <div class="bento">
+      <div class="b-card reveal">
+        <div class="b-cover">
+          <svg aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 400 112">
+            <defs><linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#1E3B2F"/><stop offset="1" stop-color="#3D6B52"/>
+            </linearGradient></defs>
+            <rect fill="url(#g1)" height="112" width="400"/>
+            <circle cx="330" cy="30" fill="#F3D9A4" opacity=".85" r="18"/>
+            <path d="M0 88 Q60 62 130 84 T280 80 T400 90 L400 112 L0 112 Z" fill="#C97F1B" opacity=".5"/>
+            <path d="M0 96 Q80 74 160 92 T400 98 L400 112 L0 112 Z" fill="#FAF0DA" opacity=".35"/>
+          </svg>
+          <span class="b-role"><!--pnid:hnc4O9DBHxe7KCZhZIMjt1-->Running · 跑步</span>
+        </div>
+        <div class="b-body">
+          <div class="b-name"><!--pnid:nvE16kUXewJTvyxqIRHK7R-->「玄武湖环湖 10K 计划」</div>
+          <div class="b-desc"><!--pnid:A9f3MIBsuqbJMiCPGs1ET2-->环湖一圈刚好十公里，配速不重要，重要的是湖边的风和完赛后的那碗鸭血粉丝汤。</div>
+        </div>
+      </div>
+      <div class="b-card reveal d1">
+        <div class="b-cover">
+          <svg aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 400 112">
+            <defs><linearGradient id="g2" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#A2620C"/><stop offset="1" stop-color="#E0A84B"/>
+            </linearGradient></defs>
+            <rect fill="url(#g2)" height="112" width="400"/>
+            <rect fill="#1E3B2F" height="12" opacity=".85" rx="6" width="160" x="120" y="52"/>
+            <rect fill="#1E3B2F" height="30" opacity=".7" rx="4" width="14" x="128" y="64"/>
+            <rect fill="#1E3B2F" height="30" opacity=".7" rx="4" width="14" x="258" y="64"/>
+            <rect fill="#FFFDF8" height="16" opacity=".8" rx="5" width="24" x="150" y="36"/>
+            <rect fill="#FFFDF8" height="22" opacity=".65" rx="5" width="24" x="180" y="30"/>
+            <rect fill="#FFFDF8" height="16" opacity=".8" rx="5" width="24" x="210" y="36"/>
+          </svg>
+          <span class="b-role"><!--pnid:vD371rfEbvozC9RKVP87z1-->Gym · 健身</span>
+        </div>
+        <div class="b-body">
+          <div class="b-name"><!--pnid:CbVtDSFD0JUub8uQSD4dlP-->「杠铃片收藏家」</div>
+          <div class="b-desc"><!--pnid:Rz1yC7kGKgCq5K14dAQiXT-->卧推、深蹲、硬拉三大项，是我给自己写的另一套「架构设计」，受力分析一样严谨。</div>
+        </div>
+      </div>
+      <div class="b-card reveal">
+        <div class="b-cover">
+          <svg aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 400 112">
+            <defs><linearGradient id="g3" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#2C4A3C"/><stop offset="1" stop-color="#12281F"/>
+            </linearGradient></defs>
+            <rect fill="url(#g3)" height="112" width="400"/>
+            <rect fill="#3D5C4C" height="60" opacity=".9" rx="10" width="100" x="150" y="34"/>
+            <circle cx="200" cy="64" fill="none" r="20" stroke="#F3D9A4" stroke-width="4"/>
+            <circle cx="200" cy="64" fill="#F3D9A4" r="9"/>
+            <rect fill="#3D5C4C" height="10" rx="3" width="26" x="168" y="26"/>
+            <circle cx="330" cy="26" fill="#F3D9A4" opacity=".8" r="3"/><circle cx="70" cy="40" fill="#F3D9A4" opacity=".6" r="2.5"/><circle cx="110" cy="22" fill="#F3D9A4" opacity=".7" r="2"/>
+          </svg>
+          <span class="b-role"><!--pnid:NBEdnSB9NZXf1SwLb1MZsV-->Photo · 摄影</span>
+        </div>
+        <div class="b-body">
+          <div class="b-name"><!--pnid:HiDEoLkBfWpd2j55jjY5kd-->《Z52 视界 · 南京扫街》</div>
+          <div class="b-desc"><!--pnid:4hV8dHk4LsdSpFjR03CpGo-->用一支镜头记录梧桐、明城墙和清晨的早市。摄影是程序员唯一不用 debug 的爱好。</div>
+        </div>
+      </div>
+      <div class="b-card reveal d1">
+        <div class="b-cover">
+          <svg aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 400 112">
+            <defs><linearGradient id="g4" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#C97F1B"/><stop offset="1" stop-color="#8A530A"/>
+            </linearGradient></defs>
+            <rect fill="url(#g4)" height="112" width="400"/>
+            <rect fill="#FFFDF8" height="58" opacity=".92" rx="8" width="100" x="150" y="40"/>
+            <rect fill="#1E3B2F" height="16" opacity=".85" rx="8" width="100" x="150" y="40"/>
+            <rect fill="#E8DFCC" height="6" rx="3" width="60" x="162" y="66"/>
+            <rect fill="#E8DFCC" height="6" rx="3" width="44" x="162" y="78"/>
+            <path d="M250 34 q10 -14 20 0 q-10 6 -20 0" fill="#1E3B2F" opacity=".7"/>
+          </svg>
+          <span class="b-role"><!--pnid:DryZcHjs9D9bqOnSb8N8P9-->Writing · 写作</span>
+        </div>
+        <div class="b-body">
+          <div class="b-name"><!--pnid:ZveyntW8cYEdsuxKgJUxnL-->「花下烟客」公众号</div>
+          <div class="b-desc"><!--pnid:t7zQzuItIsv6qrFZrST575-->把踩过的坑写成文章。读者不算多，但每一条后台留言都值一杯美式。</div>
+        </div>
+      </div>
+      <div class="b-card reveal">
+        <div class="b-cover">
+          <svg aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 400 112">
+            <defs><linearGradient id="g5" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#B4560F"/><stop offset="1" stop-color="#D98E2B"/>
+            </linearGradient></defs>
+            <rect fill="url(#g5)" height="112" width="400"/>
+            <circle cx="200" cy="56" fill="none" r="30" stroke="#FFFDF8" stroke-width="5"/>
+            <path d="M178 40 L200 56 L178 72" fill="none" stroke="#FFFDF8" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/>
+            <circle cx="240" cy="86" fill="#1E3B2F" opacity=".55" r="6"/>
+          </svg>
+          <span class="b-role"><!--pnid:eDCIBrUTB2Z2oSpEDlwtYK-->Ball · 篮球</span>
+        </div>
+        <div class="b-body">
+          <div class="b-name"><!--pnid:UzuENJ7HVSGlNPN1oX2q4k-->「周三篮球之夜」</div>
+          <div class="b-desc"><!--pnid:vdcdndXE5jxwcKZDNtq8St-->投篮命中率常年 40%，气势常年 100%。输了球不怪自己，怪地板滑。</div>
+        </div>
+      </div>
+      <div class="b-card reveal d1">
+        <div class="b-cover">
+          <svg aria-hidden="true" preserveAspectRatio="none" viewBox="0 0 400 112">
+            <defs><linearGradient id="g6" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#244234"/><stop offset="1" stop-color="#4E7A61"/>
+            </linearGradient></defs>
+            <rect fill="url(#g6)" height="112" width="400"/>
+            <rect fill="#FFFDF8" height="52" opacity=".9" rx="8" width="140" x="130" y="30"/>
+            <rect fill="#C97F1B" height="8" opacity=".85" rx="4" width="50" x="142" y="42"/>
+            <rect fill="#CBD8CE" height="5" rx="2.5" width="110" x="142" y="56"/>
+            <rect fill="#CBD8CE" height="5" rx="2.5" width="88" x="142" y="66"/>
+            <rect fill="#F3D9A4" height="34" rx="6" transform="rotate(8 247 79)" width="34" x="230" y="62"/>
+          </svg>
+          <span class="b-role"><!--pnid:gCcXlTKb0j5jlOUFtW9aAr-->System · 效率</span>
+        </div>
+        <div class="b-body">
+          <div class="b-name"><!--pnid:5gNHcbXsT5Ed6HXIHql7Jc-->「Notion 人生操作系统」</div>
+          <div class="b-desc"><!--pnid:egJU8l2cA10gYk2nwlktoU-->笔记、待办、训练计划全在 Notion 里。搭建系统花的时间，远超使用它的时间。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--pnid:QX4nhL21RqMCTkIp3vDw1d--><!-- ============ 5 · SkillRadar ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow"><!--pnid:puDCheAdlvYYyLGE9eF4ml-->Skill Radar</span>
+      <h2 class="sec-title"><!--pnid:whEDw5y0WYSS4RuIE1Lag8-->技能分布 · 自评雷达</h2>
+      <p class="sec-sub"><!--pnid:za2K6LBl8eMdRqDJHjZFd2-->技术是主业，软技能和自律是隐藏属性</p>
+    </div>
+    <div class="skills">
+      <div class="skill reveal"><div class="sk-top"><span class="sk-name"><!--pnid:421EmasNtA8L2OrU14hphm-->Java 后端 / Spring 全家桶</span><span class="sk-val"><!--pnid:ChGHhuKsyu8AcMhkN8TXSB-->92</span></div><div class="sk-bar"><div class="sk-fill" data-w="92"></div></div></div>
+      <div class="skill reveal d1"><div class="sk-top"><span class="sk-name"><!--pnid:vHTHPNnRYgkRvo5TqIi0Om-->时序数据库 · 海迅</span><span class="sk-val"><!--pnid:NEupf0dgKB6RXe50VVwrA3-->90</span></div><div class="sk-bar"><div class="sk-fill" data-w="90"></div></div></div>
+      <div class="skill reveal"><div class="sk-top"><span class="sk-name"><!--pnid:hIl9RpBxjwHMWO5y1BZWN6-->AI 应用 / RPA &amp; 数据分析</span><span class="sk-val"><!--pnid:PLCGPcR4uq1LrZp8Lan7UZ-->85</span></div><div class="sk-bar"><div class="sk-fill" data-w="85"></div></div></div>
+      <div class="skill reveal d1"><div class="sk-top"><span class="sk-name"><!--pnid:zY9sFfofcbDzfG14HTgGZg-->前端可视化 · Echarts / Babylon</span><span class="sk-val"><!--pnid:OSKho5asCDJciPMjHNz4Nr-->78</span></div><div class="sk-bar"><div class="sk-fill" data-w="78"></div></div></div>
+      <div class="skill reveal"><div class="sk-top"><span class="sk-name"><!--pnid:WbYBG48FcBJaNW1fVKb6Nc-->项目管理 · PMP 持证</span><span class="sk-val"><!--pnid:k7OWFMpFhE2wBhowudbShI-->88</span></div><div class="sk-bar"><div class="sk-fill" data-w="88"></div></div></div>
+      <div class="skill soft reveal d1"><div class="sk-top"><span class="sk-name soft"><!--pnid:VO8yFA7zyP06X8XijuQOWo-->售前讲故事</span><span class="sk-val"><!--pnid:15fVH0Lmp3zKgM7l54Zwqz-->86</span></div><div class="sk-bar"><div class="sk-fill" data-w="86"></div></div></div>
+      <div class="skill soft reveal"><div class="sk-top"><span class="sk-name soft"><!--pnid:UalyYmA7FvMkTOKBUav68w-->跨团队沟通协调</span><span class="sk-val"><!--pnid:2BxPcRd3Ibk2ZLATpwSDsZ-->84</span></div><div class="sk-bar"><div class="sk-fill" data-w="84"></div></div></div>
+      <div class="skill soft reveal d1"><div class="sk-top"><span class="sk-name soft"><!--pnid:qv55AGIfVGKsyL78Nrcpzj-->健身式自律</span><span class="sk-val"><!--pnid:BsO9KOzvUO8sQPJqBhvtf4-->95</span></div><div class="sk-bar"><div class="sk-fill" data-w="95"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!--pnid:x6FYHKwGCYzJ7hMptrxt6R--><!-- ============ 6 · Testimonial ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="sec-eyebrow"><!--pnid:OtnLqP2xqxHF2EbRi3snE2-->Friends Say</span>
+      <h2 class="sec-title"><!--pnid:yRvV52p2flDrXW7ShU2HMz-->好友印象 · 评分墙</h2>
+      <p class="sec-sub"><!--pnid:t43ZPXN9qrGStPZdMTXMpq-->真实反馈，未经本人公关审核</p>
+    </div>
+    <div class="quotes">
+      <div class="quote reveal">
+        <p class="quote-text"><!--pnid:fSFgTXuPb3TSXkWGEqWkMP-->约他改需求要排期三天，约他周末跑步一次就答应，双标得非常明显。</p>
+        <div class="quote-meta"><span class="quote-ava"><!--pnid:2NoqCDUrMvGBiYoZfMMDP0-->周</span><span class="quote-name"><!--pnid:griAfLgV3SrqTubvDxEf4C-->老周</span><span class="quote-rel"><!--pnid:FfwtnkW2C9qXGRADkBVypL-->部门同事</span></div>
+      </div>
+      <div class="quote reveal d1">
+        <p class="quote-text"><!--pnid:eDRz0tLzC504bb8fe5UW3O-->组间休息都在回工作消息，但教练叫他加重量的时候比谁都积极。</p>
+        <div class="quote-meta"><span class="quote-ava"><!--pnid:tGBk0XeuOu0eh0iyRWBGr7-->凯</span><span class="quote-name"><!--pnid:P8V8NGPUpsbVkxsuJEHkEV-->阿凯</span><span class="quote-rel"><!--pnid:mGJlPdS5uFsjBKZFMjjwoB-->健身房搭子</span></div>
+      </div>
+      <div class="quote reveal">
+        <p class="quote-text"><!--pnid:2FKIWHCmtqo3FWWghYBLYI-->约好一起跑环湖，我在第 3 公里想放弃，他在旁边讲数据库优化，笑到我跑完全程。</p>
+        <div class="quote-meta"><span class="quote-ava"><!--pnid:cyxtKaoFPKpD4xTVdK3NYh-->林</span><span class="quote-name"><!--pnid:kgSJ1afstWgOH2cPiAq2lC-->小林</span><span class="quote-rel"><!--pnid:V7e7oJBb3cAPp3g6ZrZii4-->跑友</span></div>
+      </div>
+      <div class="quote reveal d1">
+        <p class="quote-text"><!--pnid:zWEPwceSrdv5A9ntDDilwh-->全宿舍只有他凌晨一点写技术博客，早上六点还叫我们去晨跑。感谢他，真的没有。</p>
+        <div class="quote-meta"><span class="quote-ava"><!--pnid:gA2SxmP3er8eKc4NHz9ZiX-->鹏</span><span class="quote-name"><!--pnid:E2NulnHBvfpRCBFh8jVXFm-->大鹏</span><span class="quote-rel"><!--pnid:KyjiPiTJsYgK0fTN6wWXXM-->大学室友</span></div>
+      </div>
+      <div class="quote reveal">
+        <p class="quote-text"><!--pnid:zYjqNw4DlkeUmohDGDRfde-->搜数据库报错搜到他公众号，问题不光解决了，还顺路被安利了健身房年卡。</p>
+        <div class="quote-meta"><span class="quote-ava"><!--pnid:W4awrIaW38O2fZ83s2oi7u-->读</span><span class="quote-name"><!--pnid:3ifuPqZjOwgWTUFprqfVmS-->后台读者</span><span class="quote-rel"><!--pnid:vptIrOlFtK5v5NF3GqoSVp-->「花下烟客」粉丝</span></div>
+      </div>
+      <div class="quote reveal d1">
+        <p class="quote-text"><!--pnid:ZyAbQtMaLDXbADzYgKWkSb-->评审会上讲方案逻辑清楚滴水不漏，下了会场聊篮球比谁都起劲，标准反差萌。</p>
+        <div class="quote-meta"><span class="quote-ava"><!--pnid:dND9BqtQe2sKgb5rkIQbyk-->陈</span><span class="quote-name"><!--pnid:sVXeVnpA2DPnsHkMdpDn8x-->陈工</span><span class="quote-rel"><!--pnid:5pqik5CDwlxhfB9vLX3wn2-->前领导</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--pnid:t5oUIRpupI9v2i4JQMWcil--><!-- ============ 7 · ContactSocial ============ -->
+<section>
+  <div class="wrap">
+    <div class="contact-card reveal">
+      <p class="cc-eyebrow"><!--pnid:eGT8afVfH51a3fjzDtqOOY-->The Bridge · 连接与破冰</p>
+      <h2 class="cc-title"><!--pnid:Y6OUA47icnqjNYkVkzofYm-->来，交个朋友</h2>
+      <p class="cc-ice"><!--pnid:pEsGPXs3hX8vYTE28rqKoO-->
+        如果你也在南京、也撸铁、也跑步，或者手上有台相机想找人一起扫街——随时来找我。
+        第一句话可以直接问：<strong><!--pnid:KxAQjkgiGv9QHp8HjTLzqf-->「最近配速多少？」</strong><!--pnid:PCJESZfDF0VI6Wu8tB1g77-->保证秒回（训练时间除外）。
+      </p>
+      <div class="channels">
+        <div class="chan">
+          <div class="chan-ico"><!--pnid:LeNCaCNCmFuvi7JiQZYYIR-->💬</div>
+          <div>
+            <div class="chan-p"><!--pnid:7WWQKKakJKhZdMP3JZsrUb-->WeChat · 微信</div>
+            <div class="chan-id"><!--pnid:EJr6yd8TCgbuJQkESU1Hu9-->13057658662</div>
+            <div class="chan-act"><!--pnid:MaOQXjJYISVSTDac0iN8ko-->加我请备注暗号：<em><!--pnid:PSTgi8Y8IngtW20sn415od-->「玄武湖」</em><!--pnid:YaiZyAyDP0tr6fceBjUoRi-->，约跑约球约饭都行</div>
+          </div>
+        </div>
+        <div class="chan">
+          <div class="chan-ico"><!--pnid:RVLz4aCY1H1prSL9ZGkqZW-->📮</div>
+          <div>
+            <div class="chan-p"><!--pnid:RdZcsW5wwzBXSxZCJOq1id-->Official Account · 公众号</div>
+            <div class="chan-id"><!--pnid:rJHWlM4jq2XCSoSupXvTgB-->花下烟客</div>
+            <div class="chan-act"><!--pnid:oq8I9UtMKxwi6pxfmOSRyR-->搜索关注，后台回复<em><!--pnid:WY2tSN8kLhu8Df4SwZeQp6-->「训练计划」</em><!--pnid:aWi5GOIZvbd2yJO9cDWBGg-->解锁我的私教版三大项安排</div>
+          </div>
+        </div>
+        <div class="chan">
+          <div class="chan-ico"><!--pnid:pbycRkMCvsWeAvVfUWIXyz-->🧩</div>
+          <div>
+            <div class="chan-p"><!--pnid:XaU566UAmRAZ0kfZ6L5b2s-->GitHub</div>
+            <div class="chan-id"><!--pnid:0JMHsHaMOooFx7tiOMFcd6-->github.com/H-Whisky</div>
+            <div class="chan-act"><!--pnid:6UfF8DghAQy6fBcPN3iogh-->Star 随意，issue 白天基本秒回，欢迎来踢馆</div>
+          </div>
+        </div>
+        <div class="chan">
+          <div class="chan-ico"><!--pnid:f4jbc9wc0BFbNsiUdTiMnR-->📓</div>
+          <div>
+            <div class="chan-p"><!--pnid:4v8VdMMuafKrmrSLfn6G9x-->Notion</div>
+            <div class="chan-id"><!--pnid:WgvfDZZ6cr0YRQ5w35pfMZ-->H-Whisky（575212430@qq.com）</div>
+            <div class="chan-act"><!--pnid:rOpe4YHvGxF7HxRg8jFBp0-->欢迎交换笔记模板，<em><!--pnid:MexZbWrta2przvsmaU78ZP-->「你的健身计划表能发我一份吗」</em><!--pnid:kzf9I40uyoE8nJak8gbrkU-->是万能开场白</div>
+          </div>
+        </div>
+        <div class="chan">
+          <div class="chan-ico"><!--pnid:iX0EAuXgxOGMTkR24w80us-->✉️</div>
+          <div>
+            <div class="chan-p"><!--pnid:IJwQFg4H665ase1nK410RJ-->Email</div>
+            <div class="chan-id"><!--pnid:6wnMRu5Vkwp4rPTfleqnvZ-->2804127361@qq.com</div>
+            <div class="chan-act"><!--pnid:PHNMMWkPXrmxNtcjAmi1yl-->投喂想法 / 跑步路线 / 南京摄影机位，来者不拒</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p class="foot-line"><!--pnid:h7JkJ8mNjOdtOq3ustbOtM-->花威的数字生活馆 · <b><!--pnid:q6Oa6QKLLETwTX9wrJJ4cS-->EST. 1993 · 狮子座</b><!--pnid:sRwrdT9nY1234OFpQuXx8d--> · 南京 · 秦淮</p>
+    <p class="foot-paw"><!--pnid:bkrwsevx9RPoSu1qPJ3bS7-->♌ 🏋️ 🏃 📷</p>
+    <p class="foot-line" style="margin-top:8px"><!--pnid:Bc3EAEzM3PtDkYxJBkDCN8-->— 本页面由 CSS 与热爱共同渲染 · 交朋友用的，不是简历 —</p>
+  </div>
+</footer>
+
+<button aria-label="回到顶部" class="top-btn" id="topBtn"><!--pnid:PCi3Zd11AN2K7p7wIejBRw-->↑</button>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* 入场动效 */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  },{threshold:.12,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+  /* 数字滚动 */
+  function countUp(el){
+    var target = parseInt(el.getAttribute('data-count'),10);
+    var suffix = el.getAttribute('data-suffix') || '';
+    if(reduce){ el.textContent = target.toLocaleString() + suffix; return; }
+    var start = null, dur = 1300;
+    function step(ts){
+      if(!start) start = ts;
+      var p = Math.min((ts - start)/dur, 1);
+      var eased = 1 - Math.pow(1-p, 3);
+      el.textContent = Math.round(target * eased).toLocaleString() + suffix;
+      if(p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+  var ioStat = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ countUp(e.target); ioStat.unobserve(e.target); }
+    });
+  },{threshold:.4});
+  document.querySelectorAll('.stat-val[data-count]').forEach(function(el){ ioStat.observe(el); });
+
+  /* 技能条 */
+  var ioSkill = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var bar = e.target;
+        setTimeout(function(){ bar.style.width = bar.getAttribute('data-w') + '%'; }, reduce ? 0 : 120);
+        ioSkill.unobserve(bar);
+      }
+    });
+  },{threshold:.5});
+  document.querySelectorAll('.sk-fill').forEach(function(el){ ioSkill.observe(el); });
+
+  /* 滚动进度 & 回到顶部 */
+  var progress = document.getElementById('progress');
+  var topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var p = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
+    progress.style.width = (p*100) + '%';
+    topBtn.classList.toggle('show', h.scrollTop > 500);
+  }, {passive:true});
+  topBtn.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior: reduce ? 'auto' : 'smooth'});
+  });
+})();
+</script>
+</body>
+</html>
